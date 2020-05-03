@@ -1,5 +1,10 @@
 .vscode/
 .idea/
+
+.env
+*.env
+resources/localDev
+
 # Binaries for programs and plugins
 *.exe
 *.exe~

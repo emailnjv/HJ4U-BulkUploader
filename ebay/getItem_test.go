@@ -30,7 +30,7 @@ func TestEbayClient_GetItem(t *testing.T) {
 				return
 			}
 
-			got, err := ebayClient.GetItem(tt.args.itemID)
+			got, err := ebayClient.getItem(tt.args.itemID)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetItem() error = %v, wantErr %v", err, tt.wantErr)
 				return

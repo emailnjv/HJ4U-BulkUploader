@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-// GetItem returns the data about a specific item when passed the ite ID
+// getItem returns the data about a specific item when passed the ite ID
 // It returns an GetItemResponse object, or an error
-func (e EbayClient) GetItem(itemID string) (GetItemResponse, error) {
+func (e EbayClient) getItem(itemID string) (GetItemResponse, error) {
 	var result GetItemResponse
 	client := &http.Client{}
 

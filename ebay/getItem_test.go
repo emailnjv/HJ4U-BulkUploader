@@ -36,7 +36,7 @@ func TestEbayClient_GetItem(t *testing.T) {
 				return
 			}
 			if got.Ack == "Failure" {
-				t.Error()
+				t.Error("Ebay connection failed, check OAuth Key")
 			}
 		})
 	}

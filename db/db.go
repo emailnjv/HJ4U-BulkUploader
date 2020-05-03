@@ -13,7 +13,7 @@ type TargetDBClient struct {
 }
 
 // NewDBClient returns a new instance of a database client
-func NewDBClient() (TargetDBClient, error) {
+func NewTargetDBClient() (TargetDBClient, error) {
 	var result TargetDBClient
 
 	// Load ENVs

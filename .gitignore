@@ -1,6 +1,8 @@
 .vscode/
 .idea/
 
+resources/listings.csv
+
 .env
 *.env
 resources/localDev

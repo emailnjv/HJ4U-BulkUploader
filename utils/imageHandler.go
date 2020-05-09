@@ -65,7 +65,7 @@ func (i ImageHandler) CreateThumbnailFromJPG(srcImagePath string, destImagePath 
 		return "", err
 	}
 
-	// Dimension of new thumbnail 80 X 80
+	// Dimension of new thumbnail
 	dstImage := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	// Thumbnail function of Graphics

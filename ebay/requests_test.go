@@ -17,7 +17,7 @@ func TestEbayClient_GetItem(t *testing.T) {
 		{
 			"Successfully Queries Item",
 			args{
-				"260789710597",
+				"400484902496",
 			},
 			false,
 		},

@@ -23,7 +23,6 @@ type GetItemResponse struct {
 	Build     string   `xml:"Build"`
 	Item      struct {
 		Text            string `xml:",chardata"`
-		ApplicationData string `xml:"ApplicationData"`
 		AutoPay         string `xml:"AutoPay"`
 		BuyerProtection string `xml:"BuyerProtection"`
 		BuyItNowPrice   struct {
@@ -32,6 +31,7 @@ type GetItemResponse struct {
 		} `xml:"BuyItNowPrice"`
 		Country        string `xml:"Country"`
 		Currency       string `xml:"Currency"`
+		Description    string `xml:"Description"`
 		GiftIcon       string `xml:"GiftIcon"`
 		HitCounter     string `xml:"HitCounter"`
 		ItemID         string `xml:"ItemID"`
@@ -60,19 +60,34 @@ type GetItemResponse struct {
 			HasPublicMessages           string `xml:"HasPublicMessages"`
 			ViewItemURLForNaturalSearch string `xml:"ViewItemURLForNaturalSearch"`
 		} `xml:"ListingDetails"`
-		ListingDuration    string   `xml:"ListingDuration"`
-		ListingType        string   `xml:"ListingType"`
-		Location           string   `xml:"Location"`
-		PaymentMethods     []string `xml:"PaymentMethods"`
-		PayPalEmailAddress string   `xml:"PayPalEmailAddress"`
+		ListingDesigner struct {
+			Text     string `xml:",chardata"`
+			LayoutID string `xml:"LayoutID"`
+			ThemeID  string `xml:"ThemeID"`
+		} `xml:"ListingDesigner"`
+		ListingDuration    string `xml:"ListingDuration"`
+		ListingType        string `xml:"ListingType"`
+		Location           string `xml:"Location"`
+		PaymentMethods     string `xml:"PaymentMethods"`
+		PayPalEmailAddress string `xml:"PayPalEmailAddress"`
 		PrimaryCategory    struct {
 			Text         string `xml:",chardata"`
 			CategoryID   string `xml:"CategoryID"`
 			CategoryName string `xml:"CategoryName"`
 		} `xml:"PrimaryCategory"`
-		PrivateListing string `xml:"PrivateListing"`
-		Quantity       string `xml:"Quantity"`
-		ReservePrice   struct {
+		PrivateListing        string `xml:"PrivateListing"`
+		ProductListingDetails struct {
+			Text     string `xml:",chardata"`
+			UPC      string `xml:"UPC"`
+			BrandMPN struct {
+				Text  string `xml:",chardata"`
+				Brand string `xml:"Brand"`
+				MPN   string `xml:"MPN"`
+			} `xml:"BrandMPN"`
+			IncludeeBayProductDetails string `xml:"IncludeeBayProductDetails"`
+		} `xml:"ProductListingDetails"`
+		Quantity     string `xml:"Quantity"`
+		ReservePrice struct {
 			Text       string `xml:",chardata"`
 			CurrencyID string `xml:"currencyID,attr"`
 		} `xml:"ReservePrice"`
@@ -176,7 +191,6 @@ type GetItemResponse struct {
 				ExpeditedService        string `xml:"ExpeditedService"`
 				ShippingTimeMin         string `xml:"ShippingTimeMin"`
 				ShippingTimeMax         string `xml:"ShippingTimeMax"`
-				FreeShipping            string `xml:"FreeShipping"`
 			} `xml:"ShippingServiceOptions"`
 			ShippingType                           string   `xml:"ShippingType"`
 			ThirdPartyCheckout                     string   `xml:"ThirdPartyCheckout"`
@@ -199,7 +213,6 @@ type GetItemResponse struct {
 		} `xml:"Storefront"`
 		TimeLeft                    string `xml:"TimeLeft"`
 		Title                       string `xml:"Title"`
-		UUID                        string `xml:"UUID"`
 		HitCount                    string `xml:"HitCount"`
 		LocationDefaulted           string `xml:"LocationDefaulted"`
 		GetItFast                   string `xml:"GetItFast"`
@@ -207,11 +220,13 @@ type GetItemResponse struct {
 		SKU                         string `xml:"SKU"`
 		PostalCode                  string `xml:"PostalCode"`
 		PictureDetails              struct {
-			Text         string   `xml:",chardata"`
-			GalleryType  string   `xml:"GalleryType"`
-			GalleryURL   string   `xml:"GalleryURL"`
-			PhotoDisplay string   `xml:"PhotoDisplay"`
-			PictureURL   []string `xml:"PictureURL"`
+			Text               string   `xml:",chardata"`
+			GalleryType        string   `xml:"GalleryType"`
+			GalleryURL         string   `xml:"GalleryURL"`
+			PhotoDisplay       string   `xml:"PhotoDisplay"`
+			PictureURL         []string `xml:"PictureURL"`
+			PictureSource      string   `xml:"PictureSource"`
+			ExternalPictureURL string   `xml:"ExternalPictureURL"`
 		} `xml:"PictureDetails"`
 		DispatchTimeMax     string `xml:"DispatchTimeMax"`
 		ProxyItem           string `xml:"ProxyItem"`
@@ -267,6 +282,22 @@ type GetItemResponse struct {
 				PaymentProfileName string `xml:"PaymentProfileName"`
 			} `xml:"SellerPaymentProfile"`
 		} `xml:"SellerProfiles"`
+		ShippingServiceCostOverrideList struct {
+			Text                        string `xml:",chardata"`
+			ShippingServiceCostOverride struct {
+				Text                    string `xml:",chardata"`
+				ShippingServicePriority string `xml:"ShippingServicePriority"`
+				ShippingServiceType     string `xml:"ShippingServiceType"`
+				ShippingServiceCost     struct {
+					Text       string `xml:",chardata"`
+					CurrencyID string `xml:"currencyID,attr"`
+				} `xml:"ShippingServiceCost"`
+				ShippingServiceAdditionalCost struct {
+					Text       string `xml:",chardata"`
+					CurrencyID string `xml:"currencyID,attr"`
+				} `xml:"ShippingServiceAdditionalCost"`
+			} `xml:"ShippingServiceCostOverride"`
+		} `xml:"ShippingServiceCostOverrideList"`
 		ShippingPackageDetails struct {
 			Text              string `xml:",chardata"`
 			ShippingIrregular string `xml:"ShippingIrregular"`

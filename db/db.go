@@ -39,11 +39,14 @@ func NewTargetDBClient() (TargetDBClient, error) {
 	// Migrate the schema
 	result.db.AutoMigrate(&Product{})
 
+	// Enable Logger, show detailed log
+	result.db.LogMode(true)
+
 	return result, err
 }
 
 // CloseConnection closes the client's connection
 // It returns an error if one occurred
-func (d TargetDBClient) CloseConnection() error {
+func (d *TargetDBClient) CloseConnection() error {
 	return d.db.Close()
 }

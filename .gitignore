@@ -3,7 +3,7 @@
 
 resources/listings.csv
 resources/goDaddy
-resources/goDaddy.pub
+resources/goDaddy.*
 
 .env
 *.env
@@ -24,3 +24,6 @@ resources/localDev
 
 # Dependency directories (remove the comment below to include it)
 vendor/
+!/resources/goDaddy.ppk
+
+*.ppk

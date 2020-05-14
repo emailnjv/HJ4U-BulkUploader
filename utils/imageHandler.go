@@ -4,6 +4,7 @@ import (
 	"image"
 	"image/jpeg"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 
@@ -18,11 +19,27 @@ func NewImageHandler() ImageHandler {
 	return result
 }
 
+func (i *ImageHandler) GetImage(imageURL string) ([]byte, error) {
+	var result []byte
+
+	// Fire off the get request of the image
+	resp, err := http.Get(imageURL)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+
+	result, err = ioutil.ReadAll(resp.Body)
+
+	return result, err
+}
+
 // DownloadImage downloads an image, and loads it into a file
 // imagePath is the path including the name desired for the image
 // imageURL is the url to send the request for the image to
 // It returns the path, and an error
-func (i ImageHandler) DownloadImage(imagePath string, imageURL string) (string, error) {
+func (i *ImageHandler) DownloadImage(imagePath string, imageURL string) (string, error) {
 	var result string
 
 	// Fire off the get request of the image
@@ -55,7 +72,7 @@ func (i ImageHandler) DownloadImage(imagePath string, imageURL string) (string, 
 // width is the target width for the thumbnail
 // height is the target height for the thumbnail
 // It returns the path, and an error
-func (i ImageHandler) CreateThumbnailFromJPG(srcImagePath string, destImagePath string, width int, height int) (string, error) {
+func (i *ImageHandler) CreateThumbnailFromJPG(srcImagePath string, destImagePath string, width int, height int) (string, error) {
 	imagePath, _ := os.Open(srcImagePath)
 	defer imagePath.Close()
 

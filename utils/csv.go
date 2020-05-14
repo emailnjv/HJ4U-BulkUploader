@@ -6,7 +6,7 @@ type CSVLine struct {
 	ProductIDType      string
 	ProductIDValue     string
 	ProductIDValue2    string
-	QuantityAvailable  string
+	QuantityAvailable  int64
 	Purchases          string
 	Bids               string
 	Price              string

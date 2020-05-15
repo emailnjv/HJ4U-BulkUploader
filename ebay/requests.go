@@ -2,6 +2,7 @@ package ebay
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -23,6 +24,7 @@ func (e EbayClient) getItem(itemID string) (GetItemResponse, error) {
 		Xmlns:         "urn:ebay:apis:eBLBaseComponents",
 		ErrorLanguage: "en_US",
 		WarningLevel:  "High",
+		DetailLevel:   "ReturnAll",
 		ItemID:        itemID,
 	}
 
@@ -30,7 +32,7 @@ func (e EbayClient) getItem(itemID string) (GetItemResponse, error) {
 	out, _ := xml.Marshal(&XMLBody)
 
 	// Create request
-	req, err := http.NewRequest("POST", route, strings.NewReader(xml.Header + string(out)))
+	req, err := http.NewRequest("POST", route, strings.NewReader(xml.Header+string(out)))
 	if err != nil {
 		return result, err
 	}
@@ -59,6 +61,10 @@ func (e EbayClient) getItem(itemID string) (GetItemResponse, error) {
 	// Unmarshall body into GetItemResponse
 	if err := xml.Unmarshal(body, &result); err != nil {
 		return result, err
+	}
+
+	if result.Ack == "Failure" {
+		return result, fmt.Errorf("ebay connection failed, check OAuth Key")
 	}
 
 	return result, err

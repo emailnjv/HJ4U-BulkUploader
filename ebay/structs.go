@@ -10,6 +10,7 @@ type GetItemRequest struct {
 	Xmlns         string   `xml:"xmlns,attr"`
 	ErrorLanguage string   `xml:"ErrorLanguage"`
 	WarningLevel  string   `xml:"WarningLevel"`
+	DetailLevel  string   `xml:"DetailLevel"`
 	ItemID        string   `xml:"ItemID"`
 }
 

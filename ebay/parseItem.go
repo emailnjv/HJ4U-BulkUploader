@@ -24,10 +24,14 @@ func (e EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, ap
 		return product, photoArray, err
 	}
 
+	quantity, err := strconv.Atoi(csvData.QuantityAvailable)
+	if err != nil {
+		return product, photoArray, err
+	}
+
 	timeStamp := time.Now()
 
 	p := db.Product{
-		ID:             0,
 		Name:           csvData.ItemTitle,
 		Description:    apiCall.Item.Description,
 		Price:          price,
@@ -35,10 +39,14 @@ func (e EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, ap
 		Date:           &timeStamp,
 		Main_cat:       catID,
 		Sub_cat:        subCatID,
-		Qty:            int(csvData.QuantityAvailable),
+		Qty:            quantity,
 		Sku:            csvData.ItemID,
-		Upc:            apiCall.Item.ProductListingDetails.UPC,
 		Product_type:   "simple",
+	}
+	if apiCall.Item.ProductListingDetails.UPC != "" {
+		p.Upc = apiCall.Item.ProductListingDetails.UPC
+	} else {
+		p.Upc = csvData.ItemID
 	}
 
 	return p, apiCall.Item.PictureDetails.PictureURL, err

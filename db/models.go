@@ -8,7 +8,7 @@ type Product struct {
 	ID             int        `gorm:"column:id;type:int(11);AUTO_INCREMENT;PRIMARY_KEY`
 	Name           string     `gorm:"column:name;type:text"`
 	Description    string     `gorm:"column:descr;type:text"`
-	Price          float64    `gorm:"type:int(11)"`
+	Price          float64    `gorm:"type:float"`
 	Featured       int        `gorm:"type:tinyint(1)"`
 	Discount_price int        `gorm:"type:int(11)"`
 	Date           *time.Time `gorm:"type:timestamp;NOT NULL"`

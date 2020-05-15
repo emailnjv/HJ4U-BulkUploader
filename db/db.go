@@ -2,6 +2,7 @@ package db
 
 import (
 	"os"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -26,9 +27,10 @@ func NewTargetDBClient() (TargetDBClient, error) {
 	mysqlUser := os.Getenv("MYSQL_USER")
 	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
 	mysqlHost := os.Getenv("MYSQL_HOST")
+	mysqlPort := os.Getenv("MYSQL_PORT")
 
 	// Create connection string
-	connectionString := mysqlUser + ":" + mysqlPassword + "@" + mysqlHost + "/" + mysqlDB + "?charset=utf8&parseTime=True&loc=Local"
+	connectionString := mysqlUser + ":" + mysqlPassword + "@tcp(" + mysqlHost + ":" + mysqlPort + ")/" + mysqlDB + "?charset=utf8&parseTime=True&loc=Local"
 
 	// Open connection
 	result.db, err = gorm.Open("mysql",  connectionString)
@@ -41,6 +43,9 @@ func NewTargetDBClient() (TargetDBClient, error) {
 
 	// Enable Logger, show detailed log
 	result.db.LogMode(true)
+
+	result.db.DB().SetMaxIdleConns(0)
+	result.db.DB().SetConnMaxLifetime(5 * time.Second)
 
 	return result, err
 }

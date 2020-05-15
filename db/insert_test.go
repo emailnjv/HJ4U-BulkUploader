@@ -44,7 +44,7 @@ func TestTargetDBClient_insertProduct(t *testing.T) {
 				return
 			}
 
-			got, err := d.insertProduct(tt.args.product)
+			got, err := d.InsertProduct(tt.args.product)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("insertProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return

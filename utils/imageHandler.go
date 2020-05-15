@@ -1,12 +1,17 @@
 package utils
 
 import (
+	"bytes"
 	"image"
 	"image/jpeg"
+	"image/png"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/BurntSushi/graphics-go/graphics"
 )
@@ -33,6 +38,20 @@ func (i *ImageHandler) GetImage(imageURL string) ([]byte, error) {
 	result, err = ioutil.ReadAll(resp.Body)
 
 	return result, err
+}
+
+func (i *ImageHandler) GetImageExtension(imgURL string) string {
+	urlStruct, err := url.Parse(imgURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	pathSplit := strings.Split(urlStruct.Path, "/" )
+	imgName := pathSplit[len(pathSplit) - 1]
+	nameSplit := strings.Split(imgName, ".")
+	imgExt := nameSplit[len(nameSplit) - 1]
+
+	return imgExt
 }
 
 // DownloadImage downloads an image, and loads it into a file
@@ -66,37 +85,60 @@ func (i *ImageHandler) DownloadImage(imagePath string, imageURL string) (string,
 	return imagePath, err
 }
 
-// CreateThumbnailFromJPG creates a new thumbnail from  a JPG
-// srcImagePath is the path including the name desired for the source image
-// destImagePath is the path including the name desired for the image thumbnail
+// CreateThumbnailFromJPG creates a new thumbnail from a JPG byte array
+// srcImage is the initial image in bytes
 // width is the target width for the thumbnail
 // height is the target height for the thumbnail
-// It returns the path, and an error
-func (i *ImageHandler) CreateThumbnailFromJPG(srcImagePath string, destImagePath string, width int, height int) (string, error) {
-	imagePath, _ := os.Open(srcImagePath)
-	defer imagePath.Close()
-
+// It returns the byte array of the thumbnail, and an error
+func (i *ImageHandler) CreateThumbnailFromJPG(srcImage []byte, width int, height int) ([]byte, error) {
 	// Decode the source image
-	srcImage, _, err := image.Decode(imagePath)
+	imageStruct, _, err := image.Decode(bytes.NewReader(srcImage))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	// Dimension of new thumbnail
 	dstImage := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	// Thumbnail function of Graphics
-	graphics.Thumbnail(dstImage, srcImage)
+	graphics.Thumbnail(dstImage, imageStruct)
 
-	// Create new file for thumbnail
-	newImage, _ := os.Create(destImagePath)
-	defer newImage.Close()
+	byteBuffer := new(bytes.Buffer)
 
 	// Encode the newly created thumbnail to new file
-	err = jpeg.Encode(newImage, dstImage, &jpeg.Options{Quality: 100})
+	err = jpeg.Encode(byteBuffer, dstImage, &jpeg.Options{Quality: 100})
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return destImagePath, err
+	return byteBuffer.Bytes(), err
+}
+
+// CreateThumbnailFromPNG creates a new thumbnail from a JPG byte array
+// srcImage is the initial image in bytes
+// width is the target width for the thumbnail
+// height is the target height for the thumbnail
+// It returns the byte array of the thumbnail, and an error
+func (i *ImageHandler) CreateThumbnailFromPNG(srcImage []byte, width int, height int) ([]byte, error) {
+	// Decode the source image
+	imageStruct, _, err := image.Decode(bytes.NewReader(srcImage))
+	if err != nil {
+		return nil, err
+	}
+
+	// Dimension of new thumbnail
+	dstImage := image.NewRGBA(image.Rect(0, 0, width, height))
+
+	// Thumbnail function of Graphics
+	graphics.Thumbnail(dstImage, imageStruct)
+
+	byteBuffer := new(bytes.Buffer)
+
+	// Encode the newly created thumbnail to new file
+	err = png.Encode(byteBuffer, dstImage)
+	if err != nil {
+		return nil, err
+	}
+
+	return byteBuffer.Bytes(), err
 }

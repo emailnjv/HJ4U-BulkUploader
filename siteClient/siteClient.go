@@ -20,6 +20,7 @@ type SiteClient struct {
 	EbayClient   ebay.EbayClient
 	ImageHandler utils.ImageHandler
 	SCPClient    utils.SCPClient
+	HTMLParser   utils.HTMLParser
 }
 
 func NewSiteClient() (SiteClient, error) {
@@ -46,12 +47,20 @@ func NewSiteClient() (SiteClient, error) {
 	result.EbayClient = ebayClient
 	result.ImageHandler = imageHandler
 	result.SCPClient = scpClient
+	result.HTMLParser = utils.HTMLParser{}
 
 	return result, err
 }
 
 func (sc *SiteClient) InsertListing(catID int, subCatID int, csvData utils.CSVLine) error {
 	product, urlArr, err := sc.EbayClient.GetProductInfo(catID, subCatID, csvData)
+
+	formattedDescription, err := sc.HTMLParser.ParseHTML(product.Description)
+	if err != nil {
+		return err
+	}
+
+	product.Description = formattedDescription
 
 	productID, err := sc.DBClient.InsertProduct(&product)
 	if err != nil {
@@ -65,7 +74,14 @@ func (sc *SiteClient) InsertListing(catID int, subCatID int, csvData utils.CSVLi
 
 	return err
 }
+func (sc SiteClient) test() (string, error) {
+	var result string
+	var err error
 
+	
+
+	return result, err
+}
 func (sc *SiteClient) handleImageURLs(productID int, imageURLs []string) error {
 
 	for index, imageURL := range imageURLs {
@@ -93,13 +109,13 @@ func (sc *SiteClient) handleImageURLs(productID int, imageURLs []string) error {
 		}
 
 		fullSizeImageName := fmt.Sprintf("%v_%v.%v", productID, index, extension)
-		fullSizeImageErr := sc.SCPClient.UploadFile(imageBytes, ImageDirectory + fullSizeImageName)
+		fullSizeImageErr := sc.SCPClient.UploadFile(imageBytes, ImageDirectory+fullSizeImageName)
 		if fullSizeImageErr != nil {
 			return fullSizeImageErr
 		}
 
 		thumbNailName := fmt.Sprintf("%v_%v_thumb.%v", productID, index, extension)
-		thumbnailImageErr := sc.SCPClient.UploadFile(thumbnailBytes, ThumbnailImageDirectory + thumbNailName)
+		thumbnailImageErr := sc.SCPClient.UploadFile(thumbnailBytes, ThumbnailImageDirectory+thumbNailName)
 		if thumbnailImageErr != nil {
 			return thumbnailImageErr
 		}

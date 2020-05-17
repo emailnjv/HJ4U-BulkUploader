@@ -13,7 +13,11 @@ func init() {
 }
 
 func main() {
-	err := run("Art Prints", 11, 25)
+	err := run("Art Posters", 11, 26)
+	if err != nil {
+		panic(err)
+	}
+	err = run("Art Prints", 11, 25)
 	if err != nil {
 		panic(err)
 	}
@@ -71,7 +75,6 @@ func run(targetCategory string, catID int, subCatID int) error {
 			if data.CategoryLeafName == targetCategory {
 				csvLineArr = append(csvLineArr, data)
 			}
-
 
 		}
 	}

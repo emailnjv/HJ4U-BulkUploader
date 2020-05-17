@@ -1,7 +1,9 @@
 package ebay
 
 import (
+	"html"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/emailnjv/HJ4U-BulkUploader/db"
@@ -32,7 +34,7 @@ func (e EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, ap
 	timeStamp := time.Now()
 
 	p := db.Product{
-		Name:           csvData.ItemTitle,
+		Name:           strings.TrimSpace(html.UnescapeString(apiCall.Item.Title)),
 		Description:    apiCall.Item.Description,
 		Price:          price,
 		Featured:       0,

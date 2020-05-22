@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 // getItem returns the data about a specific item when passed the ite ID
@@ -86,7 +89,18 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj 
 	// Get Route
 	route := ec.tradingAPIRouteBuilder()
 
+	var waitTime string
+	if waitTime = os.Getenv("API_CALL_DELAY"); waitTime == "" {
+		waitTime = "0"
+	}
+
+	waitTimeInt, err := strconv.Atoi(waitTime)
+	if err != nil {
+		panic(err)
+	}
+
 	for _, itemID := range itemIDs {
+		time.Sleep(time.Duration(waitTimeInt) * time.Microsecond)
 		go func(itemID string) {
 			defer wg.Done()
 			var result httpRespObj

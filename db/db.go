@@ -45,7 +45,7 @@ func NewTargetDBClient() (TargetDBClient, error) {
 	result.db.LogMode(true)
 
 	result.db.DB().SetMaxIdleConns(0)
-	result.db.DB().SetConnMaxLifetime(5 * time.Second)
+	result.db.DB().SetConnMaxLifetime(1 * time.Second)
 
 	return result, err
 }

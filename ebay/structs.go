@@ -2,6 +2,9 @@ package ebay
 
 import (
 	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	"sync"
 )
 
 type GetItemRequest struct {
@@ -10,7 +13,7 @@ type GetItemRequest struct {
 	Xmlns         string   `xml:"xmlns,attr"`
 	ErrorLanguage string   `xml:"ErrorLanguage"`
 	WarningLevel  string   `xml:"WarningLevel"`
-	DetailLevel  string   `xml:"DetailLevel"`
+	DetailLevel   string   `xml:"DetailLevel"`
 	ItemID        string   `xml:"ItemID"`
 }
 
@@ -320,4 +323,11 @@ type GetItemResponse struct {
 		EBayPlusEligible    string `xml:"eBayPlusEligible"`
 		IsSecureDescription string `xml:"IsSecureDescription"`
 	} `xml:"Item"`
+}
+
+func (itemResp *GetItemResponse) ToFile(wg *sync.WaitGroup, fileDirectory string) error {
+	defer wg.Done()
+	file, err := xml.MarshalIndent(itemResp, "", " ")
+	ioutil.WriteFile(fmt.Sprintf("%s/%s.xml", fileDirectory, itemResp.Item.ItemID), file, 0644)
+	return err
 }

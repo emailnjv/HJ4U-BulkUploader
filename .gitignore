@@ -27,3 +27,9 @@ vendor/
 !/resources/goDaddy.ppk
 
 *.ppk
+/resources/products/
+/resources/responses/
+
+resources/listings_mod.csv
+
+output.txt

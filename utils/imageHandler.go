@@ -46,10 +46,10 @@ func (i *ImageHandler) GetImageExtension(imgURL string) string {
 		log.Fatal(err)
 	}
 
-	pathSplit := strings.Split(urlStruct.Path, "/" )
-	imgName := pathSplit[len(pathSplit) - 1]
+	pathSplit := strings.Split(urlStruct.Path, "/")
+	imgName := pathSplit[len(pathSplit)-1]
 	nameSplit := strings.Split(imgName, ".")
-	imgExt := nameSplit[len(nameSplit) - 1]
+	imgExt := nameSplit[len(nameSplit)-1]
 
 	return imgExt
 }
@@ -83,6 +83,25 @@ func (i *ImageHandler) DownloadImage(imagePath string, imageURL string) (string,
 	defer file.Close()
 
 	return imagePath, err
+}
+
+func (i *ImageHandler) DownloadImageFromBytes(imageBytes []byte, imagePath string) error {
+	// Create blank file at path
+	file, err := os.Create(imagePath)
+	if err != nil {
+		return err
+	}
+
+	reader := bytes.NewReader(imageBytes)
+
+	// Copy the image to the file
+	_, err = io.Copy(file, reader)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	return err
 }
 
 // CreateThumbnailFromJPG creates a new thumbnail from a JPG byte array

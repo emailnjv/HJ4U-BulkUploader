@@ -1,5 +1,5 @@
 package ebay
 
-func (e EbayClient) tradingAPIRouteBuilder() string {
+func (ec EbayClient) tradingAPIRouteBuilder() string {
 	return "https://api.ebay.com/ws/api.dll"
 }

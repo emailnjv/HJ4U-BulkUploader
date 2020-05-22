@@ -1,6 +1,7 @@
 package ebay
 
 import (
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -11,16 +12,19 @@ import (
 
 type EbayClient struct {
 	oAuthKey string
+	Log      log.Logger
 }
 
 // NewEbayClient instantiates, and returns a new Ebay client
 func NewEbayClient() (EbayClient, error) {
-	var result EbayClient
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/.env")
 	if err != nil {
-		return result, err
+		return EbayClient{}, err
 	}
-	result.oAuthKey = os.Getenv("EBAY_OAUTH_TOKEN")
+	result := EbayClient{
+		oAuthKey: os.Getenv("EBAY_OAUTH_TOKEN"),
+		Log:      log.Logger{},
+	}
 	if result.oAuthKey != "" {
 		return result, err
 	}
@@ -29,10 +33,13 @@ func NewEbayClient() (EbayClient, error) {
 }
 
 func (ec *EbayClient) GetProductInfo(catID int, subCatID int, csvData utils.CSVLine) (db.Product, []string, error) {
-	apiResponse, err := ec.getItem(csvData.ItemID)
+	apiResponse, err := ec.GetItem(csvData.ItemID)
 	if err != nil {
 		return db.Product{}, []string{}, err
 	}
 	return ec.parseItem(catID, subCatID, csvData, apiResponse)
 }
 
+func (ec *EbayClient) EbayClientLog(logString string) {
+	ec.Log.Printf("Ebay Client Log: %s\n", logString)
+}

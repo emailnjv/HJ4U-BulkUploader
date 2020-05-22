@@ -112,5 +112,5 @@ func (hp *HTMLParser) getTextNode(doc *html.Node) ([]html.Node, error) {
 	if result != nil {
 		return result, nil
 	}
-	return nil, fmt.Errorf("missing text tags in the node tree")
+	return nil, fmt.Errorf("missing text tags in the node tree; %v", doc)
 }

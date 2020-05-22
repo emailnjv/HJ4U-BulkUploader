@@ -16,7 +16,7 @@ import (
 // csvData is the product data row returned from the base CSV
 // apiCall is the result from calling the GetItem api call from Ebay
 // it returns the filled out product struct, an array of image URLs, and an error
-func (e EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall GetItemResponse) (db.Product, []string, error){
+func (ec EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall GetItemResponse) (db.Product, []string, error){
 	var product db.Product
 	var photoArray []string
 

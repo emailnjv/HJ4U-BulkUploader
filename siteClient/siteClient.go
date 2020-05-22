@@ -78,10 +78,14 @@ func (sc SiteClient) test() (string, error) {
 	var result string
 	var err error
 
-	
-
 	return result, err
 }
+
+func (sc *SiteClient) CallInsertListing(chann chan error, catID int, subCatID int, csvData utils.CSVLine) {
+	err := sc.InsertListing(catID, subCatID, csvData)
+	chann <- err
+}
+
 func (sc *SiteClient) handleImageURLs(productID int, imageURLs []string) error {
 
 	for index, imageURL := range imageURLs {
@@ -109,13 +113,13 @@ func (sc *SiteClient) handleImageURLs(productID int, imageURLs []string) error {
 		}
 
 		fullSizeImageName := fmt.Sprintf("%v_%v.%v", productID, index, extension)
-		fullSizeImageErr := sc.SCPClient.UploadFile(imageBytes, ImageDirectory+fullSizeImageName)
+		fullSizeImageErr := sc.ImageHandler.DownloadImageFromBytes(imageBytes, ImageDirectory+fullSizeImageName)
 		if fullSizeImageErr != nil {
 			return fullSizeImageErr
 		}
 
 		thumbNailName := fmt.Sprintf("%v_%v_thumb.%v", productID, index, extension)
-		thumbnailImageErr := sc.SCPClient.UploadFile(thumbnailBytes, ThumbnailImageDirectory+thumbNailName)
+		thumbnailImageErr := sc.ImageHandler.DownloadImageFromBytes(thumbnailBytes, ThumbnailImageDirectory+thumbNailName)
 		if thumbnailImageErr != nil {
 			return thumbnailImageErr
 		}

@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	"strconv"
 	"sync"
 	"time"
 
@@ -16,176 +15,46 @@ func init() {
 }
 
 func main() {
-	// err := runGroupedRespDownload("Art Posters", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	fmt.Println("Art Posters Done")
-	// }
-	// err = runGroupedRespDownload("Art Prints", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	fmt.Println("Art Prints")
-	// }
 	categories := map[string]bool{
-		"Beads": true,
-		"Ceramic, Clay, Porcelain": true,
+		"Beads":                          false,
+		"Ceramic, Clay, Porcelain":       false,
+		"Art Posters Done":               true,
+		"Art Prints":                     true,
+		"Collections, Lots":              true,
+		"Connectors":                     true,
+		"Bead Caps":                      true,
+		"Chains":                         true,
+		"Clasps & Hooks":                 true,
+		"Chains, Necklaces & Pendants":   true,
+		"Charms & Pendants":              true,
+		"Bracelets":                      true,
+		"Cabochons":                      true,
+		"Carved Figures":                 true,
+		"Denby/Langley/Lovatts":          true,
+		"Earring Findings":               true,
+		"Earrings":                       true,
+		"Frames":                         true,
+		"Franciscan":                     true,
+		"Jewelry Clasps & Hooks":         true,
+		"Jewelry Making Chains":          true,
+		"Metals":                         true,
+		"Eggs":                           true,
+		"Other Craft Jewelry Findings":   true,
+		"Other Fine Necklaces, Pendants": true,
+		"Other Jewelry Design Findings":  true,
+		"Other Loose Gemstones":          true,
+		"Other Sapphires":                true,
+		"Owls":                           true,
+		"Rhinestones":                    true,
+		"Stone":                          true,
+		"Trinket Boxes":                  true,
 	}
-	// var wg sync.WaitGroup
-	// out := make(chan *error)
 
-	// wg.Add(len(categories))
+	for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses") {
+		fmt.Println(err)
+	}
 
-	// for _, category := range categories {
-		// go func(category string, wg *sync.WaitGroup) {
-			for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses") {
-				fmt.Println(err)
-			}
-				// out <- err
-	// 		}
-	// 	}(category, &wg)
-	// }
-
-	// go func() {
-	// 	wg.Wait()
-	// 	close(out)
-	// }()
-
-	// for err := range out {
-	// 	fmt.Println(err)
-	// }
 	fmt.Println("Finished")
-
-
-	// err := runGroupedRespDownload("Beads", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// } else {
-// 	fmt.Println("Beads Done")
-// }
-// err = runResponseDownload("Ceramic, Clay, Porcelain", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// } else {
-// 	fmt.Println("Ceramic, Clay, Porcelain Done")
-// }
-// err := runResponseDownload("Collections, Lots", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Bead Caps", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Connectors", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Chains", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Clasps & Hooks", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Chains, Necklaces & Pendants", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Charms & Pendants", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Bracelets", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Cabochons", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Carved Figures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Denby/Langley/Lovatts", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Earring Findings", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Earrings", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Eggs", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Frames", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Franciscan", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Jewelry Clasps & Hooks", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Jewelry Clasps & Hooks", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Jewelry Making Chains", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Metals", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Other Craft Jewelry Findings", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Other Fine Necklaces, Pendants", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Other Jewelry Design Findings", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Other Loose Gemstones", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Other Sapphires", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Owls", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Rhinestones", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Stone", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
-// err = runResponseDownload("Trinket Boxes", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses")
-// if err != nil {
-// 	panic(err)
-// }
 }
 
 func runGroupedRespDownload(categories map[string]bool, downloadDirectory string) <-chan *error {
@@ -294,99 +163,6 @@ func run(targetCategory string, catID int, subCatID int) error {
 	}()
 
 	for errResult := range errChan {
-		if errResult != nil {
-			return errResult
-		}
-	}
-
-	return nil
-}
-
-func runResponseDownload(targetCategory string, downloadDirectory string) error {
-
-	var APICallDelayString string
-	if APICallDelayString = os.Getenv("API_CALL_DELAY"); APICallDelayString == "" {
-		APICallDelayString = "0"
-	}
-	APICallDelay, err := strconv.Atoi(APICallDelayString)
-	if err != nil {
-		return err
-	}
-
-	lines, err := ReadCsv("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/listings.csv")
-	if err != nil {
-		panic(err)
-	}
-
-	sc, err := siteClient.NewSiteClient()
-	if err != nil {
-		return err
-	}
-
-	var csvWG sync.WaitGroup
-	itemIDChan := make(chan string)
-
-	foundLineCounter := 0
-	// Loop through lines & turn into object
-	for index, line := range lines {
-		if index != 0 {
-			if line[14] == targetCategory {
-				fmt.Printf("Found Item ID: %v; Index: %v\n", line[0], foundLineCounter)
-				foundLineCounter++
-				csvWG.Add(1)
-				go func(csvWG *sync.WaitGroup) {
-					defer csvWG.Done()
-					itemIDChan <- line[0]
-					return
-				}(&csvWG)
-			}
-		}
-	}
-
-	go func() {
-		defer close(itemIDChan)
-		csvWG.Wait()
-		return
-	}()
-
-	var responseWG sync.WaitGroup
-	errChan := make(chan error)
-	itemIDCounter := 0
-	for itemID := range itemIDChan {
-		responseWG.Add(1)
-		time.Sleep(time.Duration(APICallDelay) * time.Millisecond)
-		itemID := itemID
-		go func(responseWG *sync.WaitGroup, itemIDCounter int) {
-			fmt.Printf("calling item ID: %v; Index: %v\n", itemID, itemIDCounter)
-			apiResponse, err := sc.EbayClient.GetItem(itemID)
-			if err != nil {
-				errChan <- err
-				responseWG.Done()
-				return
-			}
-			if apiResponse.Ack == "Failure" {
-				errChan <- fmt.Errorf("response not found")
-				responseWG.Done()
-				return
-			}
-			fmt.Printf("downloaded file ID: %v; Index: %v\n", itemID, itemIDCounter)
-			err = apiResponse.ToFile(responseWG, downloadDirectory)
-			errChan <- err
-			return
-		}(&responseWG, itemIDCounter)
-		itemIDCounter++
-	}
-
-	go func() {
-		defer close(errChan)
-		responseWG.Wait()
-		return
-	}()
-
-	errChanCounter := 0
-	for errResult := range errChan {
-		fmt.Printf("result returned: %v; counter: %v\n", errResult, errChanCounter)
-		errChanCounter++
 		if errResult != nil {
 			return errResult
 		}

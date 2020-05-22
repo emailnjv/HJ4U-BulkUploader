@@ -3,10 +3,8 @@ package ebay
 import (
 	"encoding/xml"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 	"sync"
 )
@@ -148,24 +146,35 @@ func (ec *EbayClient) downloadResp(in <-chan *httpRespObj, downloadPath string) 
 		wg.Add(1)
 
 		go func(resp *httpRespObj, counter int) {
+			var result GetItemResponse
+
 			defer wg.Done()
 
 			if resp.Error != nil {
 				out <- resp.Error
 			}
+
+
+			data, err := ioutil.ReadAll(resp.Response.Body)
+			if err != nil {
+				out <- &err
+			}
 			defer resp.Response.Body.Close()
 
-			file, err := os.Create(fmt.Sprintf("%v/%v.xml", downloadPath, counter))
-			if err != nil {
-				out <- &err
-			}
-			defer file.Close()
-
-			_, err = io.Copy(file, resp.Response.Body)
+			err = xml.Unmarshal(data, &result)
 			if err != nil {
 				out <- &err
 			}
 
+			file, _ := xml.MarshalIndent(result, "", " ")
+			if err != nil {
+				out <- &err
+			}
+
+			err = ioutil.WriteFile(fmt.Sprintf("%v/%v.xml", downloadPath, result.Item.ItemID), file, 0644)
+			if err != nil {
+				out <- &err
+			}
 		}(resp, counter)
 	}
 

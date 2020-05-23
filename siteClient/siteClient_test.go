@@ -40,13 +40,9 @@ func TestSiteClient_handleImageURLs(t *testing.T) {
 		{
 			name: "ImageArr Upload Test",
 			args: args{
-				productID: 26078971,
+				productID: 99999999,
 				imageURLs: []string{
-					"https://i.ebayimg.com/00/s/MTAyMlgxMDg3/z/loAAAOSwed9dlimX/$_12.JPG?set_id=880000500F",
-					"https://i.ebayimg.com/00/s/MTA4MlgxMTgw/z/i9sAAOSw1EZdlim4/$_12.JPG?set_id=880000500F",
-					"https://i.ebayimg.com/00/s/MTM2OVgxNTE0/z/EiEAAOSwQvhdlinX/$_12.JPG?set_id=880000500F",
-					"https://i.ebayimg.com/00/s/MTYwMFgxMjAw/z/mewAAOSwH7ddlily/$_12.JPG?set_id=880000500F",
-					"https://i.ebayimg.com/00/s/MTYwMFgxNjAw/z/pDgAAOSwUMpdlils/$_12.JPG?set_id=880000500F",
+					"https://i.ebayimg.com/00/s/MTA1M1gxMjQ2/z/hWEAAOSw9Ztcftdp/$_57.JPG?set_id=8800005007", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/wFwAAOSwo~dcftaF/$_57.JPG?set_id=880000500F", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/iYkAAOSwJoxcftZ~/$_57.JPG?set_id=880000500F", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/waQAAOSwqrVcftaE/$_57.JPG?set_id=880000500F", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/SpQAAOSwI7JcftaA/$_57.JPG?set_id=880000500F", "https://i.ebayimg.com/00/s/OTUyWDEyNzg=/z/lu8AAOSwUMhcftbL/$_57.JPG?set_id=8800005007", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/3J8AAOSwVbhcftaC/$_57.JPG?set_id=880000500F", "https://i.ebayimg.com/00/s/MTA2NlgxNjAw/z/4IYAAOSwzOxcftaf/$_57.JPG?set_id=880000500F",
 				},
 			},
 		},

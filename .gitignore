@@ -33,3 +33,5 @@ vendor/
 resources/listings_mod.csv
 
 output.txt
+
+resources/productsOrign/

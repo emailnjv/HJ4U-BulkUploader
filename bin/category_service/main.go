@@ -4,20 +4,13 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	"sync"
-	"time"
 
 	"github.com/emailnjv/HJ4U-BulkUploader/siteClient"
-	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
-func init() {
-}
-
-func main() {
-	categories := map[string]bool{
-		"Beads":                          false,
-		"Ceramic, Clay, Porcelain":       false,
+	var categories = map[string]bool{
+		"Beads":                          true,
+		"Ceramic, Clay, Porcelain":       true,
 		"Art Posters Done":               true,
 		"Art Prints":                     true,
 		"Collections, Lots":              true,
@@ -50,11 +43,27 @@ func main() {
 		"Trinket Boxes":                  true,
 	}
 
-	for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/responses") {
-		fmt.Println(err)
-	}
+func init() {
+}
+
+func main() {
+
+	// for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp") {
+	// 	fmt.Printf("Error returned from runGroupedRespDownload: %#v\n", err)
+	// }
+		fmt.Println(uploadLocalListings())
 
 	fmt.Println("Finished")
+}
+
+func uploadLocalListings() error {
+	sc, err := siteClient.NewSiteClient()
+	if err != nil {
+		return err
+	}
+	categoryMapping := sampleMapping()
+
+	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/mergedProducts", categoryMapping)
 }
 
 func runGroupedRespDownload(categories map[string]bool, downloadDirectory string) <-chan *error {
@@ -70,10 +79,30 @@ func runGroupedRespDownload(categories map[string]bool, downloadDirectory string
 		panic(err)
 	}
 
+	// jsonFile, err := os.Open("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/siteClient/missingIDs.json")
+	// if we os.Open returns an error then handle it
+	// if err != nil {
+	// 	fmt.Printf("Error opening json file: %#v\n", err)
+	// }
+	// defer jsonFile.Close()
+
+	// read our opened jsonFile as a byte array.
+	// byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	// we initialize our Users array
+	// var IDs []string
+
+	// we unmarshal our byteArray which contains our
+	// jsonFile's content into 'users' which we defined above
+	// err = json.Unmarshal(byteValue, &IDs)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	// Loop through lines & turn into object
 	for index, line := range lines {
 		if index != 0 {
-			if categories[line[14]] {
+			if _, ok := categories[line[14]]; ok {
 				IDArr = append(IDArr, line[0])
 			}
 		}
@@ -89,87 +118,87 @@ func exit(err error) {
 	os.Exit(1)
 }
 
-func run(targetCategory string, catID int, subCatID int) error {
-	var csvLineArr []utils.CSVLine
-
-	lines, err := ReadCsv("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/listings_mod.csv")
-	if err != nil {
-		panic(err)
-	}
-
-	sc, err := siteClient.NewSiteClient()
-	if err != nil {
-		return err
-	}
-
-	// Loop through lines & turn into object
-	for index, line := range lines {
-		if index != 0 {
-			data := utils.CSVLine{
-				ItemID:             line[0],
-				CustomLabel:        line[1],
-				ProductIDType:      line[2],
-				ProductIDValue:     line[3],
-				ProductIDValue2:    line[4],
-				QuantityAvailable:  line[5],
-				Purchases:          line[6],
-				Bids:               line[7],
-				Price:              line[8],
-				StartDate:          line[9],
-				EndDate:            line[10],
-				Condition:          line[11],
-				Type:               line[12],
-				ItemTitle:          line[13],
-				CategoryLeafName:   line[14],
-				CategoryNumber:     line[15],
-				PrivateNotes:       line[16],
-				SiteListed:         line[17],
-				DownloadDate:       line[18],
-				VariationDetails:   line[19],
-				ProductReferenceID: line[20],
-				ConditionID:        line[21],
-				OutOfStockControl:  line[22],
-			}
-			if data.CategoryLeafName == targetCategory {
-				csvLineArr = append(csvLineArr, data)
-			}
-
-		}
-	}
-
-	errChan := make(chan error)
-	var csvWg sync.WaitGroup
-
-	csvWg.Add(len(csvLineArr))
-	for _, csvLine := range csvLineArr {
-		time.Sleep(2 * time.Second)
-		go func(catID int, subCatID int, csvLine utils.CSVLine) {
-
-			err := sc.InsertListing(catID, subCatID, csvLine)
-			// if err != nil {
-			// 	return err
-			// }
-			defer csvWg.Done()
-
-			errChan <- err
-		}(catID, subCatID, csvLine)
-	}
-	// defer sc.CloseSiteClient()
-
-	go func() {
-		csvWg.Wait()
-		close(errChan)
-		sc.CloseSiteClient()
-	}()
-
-	for errResult := range errChan {
-		if errResult != nil {
-			return errResult
-		}
-	}
-
-	return nil
-}
+// func run(targetCategory string, catID int, subCatID int) error {
+// 	var csvLineArr []utils.CSVLine
+//
+// 	lines, err := ReadCsv("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/listings_mod.csv")
+// 	if err != nil {
+// 		panic(err)
+// 	}
+//
+// 	sc, err := siteClient.NewSiteClient()
+// 	if err != nil {
+// 		return err
+// 	}
+//
+// 	// Loop through lines & turn into object
+// 	for index, line := range lines {
+// 		if index != 0 {
+// 			data := utils.CSVLine{
+// 				ItemID:             line[0],
+// 				CustomLabel:        line[1],
+// 				ProductIDType:      line[2],
+// 				ProductIDValue:     line[3],
+// 				ProductIDValue2:    line[4],
+// 				QuantityAvailable:  line[5],
+// 				Purchases:          line[6],
+// 				Bids:               line[7],
+// 				Price:              line[8],
+// 				StartDate:          line[9],
+// 				EndDate:            line[10],
+// 				Condition:          line[11],
+// 				Type:               line[12],
+// 				ItemTitle:          line[13],
+// 				CategoryLeafName:   line[14],
+// 				CategoryNumber:     line[15],
+// 				PrivateNotes:       line[16],
+// 				SiteListed:         line[17],
+// 				DownloadDate:       line[18],
+// 				VariationDetails:   line[19],
+// 				ProductReferenceID: line[20],
+// 				ConditionID:        line[21],
+// 				OutOfStockControl:  line[22],
+// 			}
+// 			if data.CategoryLeafName == targetCategory {
+// 				csvLineArr = append(csvLineArr, data)
+// 			}
+//
+// 		}
+// 	}
+//
+// 	errChan := make(chan error)
+// 	var csvWg sync.WaitGroup
+//
+// 	csvWg.Add(len(csvLineArr))
+// 	for _, csvLine := range csvLineArr {
+// 		time.Sleep(2 * time.Second)
+// 		go func(catID int, subCatID int, csvLine utils.CSVLine) {
+//
+// 			err := sc.InsertListing(catID, subCatID, csvLine)
+// 			// if err != nil {
+// 			// 	return err
+// 			// }
+// 			defer csvWg.Done()
+//
+// 			errChan <- err
+// 		}(catID, subCatID, csvLine)
+// 	}
+// 	// defer sc.CloseSiteClient()
+//
+// 	go func() {
+// 		csvWg.Wait()
+// 		close(errChan)
+// 		sc.CloseSiteClient()
+// 	}()
+//
+// 	for errResult := range errChan {
+// 		if errResult != nil {
+// 			return errResult
+// 		}
+// 	}
+//
+// 	return nil
+// }
 
 func ReadCsv(filename string) ([][]string, error) {
 
@@ -191,4 +220,138 @@ func ReadCsv(filename string) ([][]string, error) {
 
 func printUsage(itemID string) {
 	fmt.Println("Inserting Product ID %v", itemID)
+}
+
+func sampleMapping() map[string]siteClient.CategoryStruct {
+	result := make(map[string]siteClient.CategoryStruct)
+	result["Beads"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  16,
+	}
+	result["Ceramic, Clay, Porcelain"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  16,
+	}
+	result["Art Posters Done"] = siteClient.CategoryStruct{
+		MainCategory: 11,
+		SubCategory:  26,
+	}
+	result["Art Prints"] = siteClient.CategoryStruct{
+		MainCategory: 11,
+		SubCategory:  26,
+	}
+	result["Collections, Lots"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Connectors"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Bead Caps"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Chains"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  13,
+	}
+	result["Clasps & Hooks"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Chains, Necklaces & Pendants"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  21,
+	}
+	result["Charms & Pendants"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  18,
+	}
+	result["Bracelets"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  12,
+	}
+	result["Cabochons"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  24,
+	}
+	result["Carved Figures"] = siteClient.CategoryStruct{
+		MainCategory: 11,
+		SubCategory:  28,
+	}
+	result["Denby/Langley/Lovatts"] = siteClient.CategoryStruct{ // dinnerware
+		MainCategory: 12,
+		SubCategory:  33,
+	}
+	result["Earring Findings"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Earrings"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  14,
+	}
+	result["Frames"] = siteClient.CategoryStruct{
+		MainCategory: 11,
+		SubCategory:  27,
+	}
+	result["Franciscan"] = siteClient.CategoryStruct{ // dinnerware
+		MainCategory: 12,
+		SubCategory:  12,
+	}
+	result["Jewelry Clasps & Hooks"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  21,
+	}
+	result["Jewelry Making Chains"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  21,
+	}
+	result["Metals"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  21,
+	}
+	result["Eggs"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  37,
+	}
+	result["Other Craft Jewelry Findings"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Other Fine Necklaces, Pendants"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  13,
+	}
+	result["Other Jewelry Design Findings"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  19,
+	}
+	result["Other Loose Gemstones"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  17,
+	}
+	result["Other Sapphires"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  17,
+	}
+	result["Owls"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  36,
+	}
+	result["Rhinestones"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  17,
+	}
+	result["Stone"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  17,
+	}
+	result["Trinket Boxes"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  37,
+	}
+
+	return result
 }

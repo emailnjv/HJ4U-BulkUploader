@@ -2,8 +2,6 @@
 .idea/
 
 resources/listings.csv
-resources/goDaddy
-resources/goDaddy.*
 
 .env
 *.env
@@ -24,14 +22,13 @@ resources/localDev
 
 # Dependency directories (remove the comment below to include it)
 vendor/
-!/resources/goDaddy.ppk
 
 *.ppk
 /resources/products/
 /resources/responses/
-
-resources/listings_mod.csv
-
+/resources/resp/
 output.txt
-
-resources/productsOrign/
+/resources/mergedProducts/
+/resources/missingProducts/
+/resources/missingResponses/
+/resources/mergedResponses/

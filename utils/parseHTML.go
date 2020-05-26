@@ -36,10 +36,7 @@ func (hp *HTMLParser) getDescLIs(htmlString string) ([]string, error) {
 		return result, fmt.Errorf("fail to parse %v", htmlString)
 	}
 
-	textNodes, err := hp.getTextNode(doc)
-	if err != nil {
-		return result, err
-	}
+	textNodes, _ := hp.getTextNode(doc)
 
 	for _, textNode := range textNodes {
 		result = append(result, textNode.Data)
@@ -112,5 +109,5 @@ func (hp *HTMLParser) getTextNode(doc *html.Node) ([]html.Node, error) {
 	if result != nil {
 		return result, nil
 	}
-	return nil, fmt.Errorf("missing text tags in the node tree; %v", doc)
+	return result, fmt.Errorf("missing text tags in the node tree; %v", doc)
 }

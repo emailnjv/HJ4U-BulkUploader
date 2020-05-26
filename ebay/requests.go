@@ -4,18 +4,20 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"net/http"
+	"net"
 	"os"
 	"strconv"
-	"strings"
 	"sync"
 	"time"
+
+	"github.com/valyala/fasthttp"
 )
 
 // getItem returns the data about a specific item when passed the ite ID
 // It returns an GetItemResponse object, or an error
 func (ec *EbayClient) GetItem(itemID string) (GetItemResponse, error) {
 	var result GetItemResponse
+	var resp fasthttp.Response
 
 	// Get Route
 	route := ec.tradingAPIRouteBuilder()
@@ -34,11 +36,12 @@ func (ec *EbayClient) GetItem(itemID string) (GetItemResponse, error) {
 	// Marshall body into byte array
 	out, _ := xml.Marshal(&XMLBody)
 
+	req := fasthttp.AcquireRequest()
+
 	// Create request
-	req, err := http.NewRequest("POST", route, strings.NewReader(xml.Header+string(out)))
-	if err != nil {
-		return result, err
-	}
+	req.SetBodyString(xml.Header + string(out))
+	req.Header.SetRequestURI(route)
+	req.Header.SetMethod("POST")
 
 	// Attach Request Headers
 	req.Header.Add("X-EBAY-API-SITEID", "0")
@@ -48,21 +51,13 @@ func (ec *EbayClient) GetItem(itemID string) (GetItemResponse, error) {
 	req.Header.Add("X-EBAY-API-IAF-TOKEN", ec.oAuthKey)
 
 	// Fire off request
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return result, err
-	}
-
-	defer resp.Body.Close()
-
-	// Read the body
-	body, err := ioutil.ReadAll(resp.Body)
+	err := ec.Client.Do(req, &resp)
 	if err != nil {
 		return result, err
 	}
 
 	// Unmarshall body into GetItemResponse
-	if err := xml.Unmarshal(body, &result); err != nil {
+	if err := xml.Unmarshal(resp.Body(), &result); err != nil {
 		return result, err
 	}
 
@@ -73,16 +68,24 @@ func (ec *EbayClient) GetItem(itemID string) (GetItemResponse, error) {
 	return result, err
 }
 
-type httpRespObj struct {
-	Response *http.Response
-	Error    *error
+type byteErrObj struct {
+	Body  []byte
+	Error *error
 }
 
 // getItemRawResponse returns the data about a specific item when passed the ite ID
 // It returns an GetItemResponse object, or an error
-func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj {
-	out := make(chan *httpRespObj)
+func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan byteErrObj {
+	out := make(chan byteErrObj)
 	var wg sync.WaitGroup
+
+	client := fasthttp.Client{
+		MaxConnWaitTimeout: time.Second * 600,
+		Dial: func(addr string) (net.Conn, error) {
+			return fasthttp.DialTimeout(addr, time.Second*600)
+		},
+		MaxConnsPerHost: 50000,
+	}
 
 	wg.Add(len(itemIDs))
 
@@ -100,10 +103,11 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj 
 	}
 
 	for _, itemID := range itemIDs {
-		time.Sleep(time.Duration(waitTimeInt) * time.Microsecond)
-		go func(itemID string) {
+		time.Sleep(time.Duration(waitTimeInt) * time.Millisecond)
+		go func(client *fasthttp.Client, itemID string) {
 			defer wg.Done()
-			var result httpRespObj
+			var response fasthttp.Response
+			var result byteErrObj
 
 			// Create request body
 			XMLBody := GetItemRequest{
@@ -119,12 +123,12 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj 
 			// Marshall body into byte array
 			reqBody, _ := xml.Marshal(&XMLBody)
 
+			req := fasthttp.AcquireRequest()
+
 			// Create request
-			req, err := http.NewRequest("POST", route, strings.NewReader(xml.Header+string(reqBody)))
-			if err != nil {
-				result.Error = &err
-				out <- &result
-			}
+			req.SetBodyString(xml.Header + string(reqBody))
+			req.Header.SetRequestURI(route)
+			req.Header.SetMethod("POST")
 
 			// Attach Request Headers
 			req.Header.Add("X-EBAY-API-SITEID", "0")
@@ -133,14 +137,17 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj 
 			req.Header.Add("Content-Type", "text/xml")
 			req.Header.Add("X-EBAY-API-IAF-TOKEN", ec.oAuthKey)
 
+			fmt.Printf("Sending Request for: %v\n", itemID)
+
 			// Fire off request
-			result.Response, err = http.DefaultClient.Do(req)
+			err = client.Do(req, &response)
 			if err != nil {
 				result.Error = &err
 			}
+			result.Body = response.Body()
 
-			out <- &result
-		}(itemID)
+			out <- result
+		}(&client, itemID)
 	}
 
 	go func() {
@@ -151,31 +158,25 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan *httpRespObj 
 	return out
 }
 
-func (ec *EbayClient) downloadResp(in <-chan *httpRespObj, downloadPath string) <-chan *error {
+func (ec *EbayClient) downloadResp(in <-chan byteErrObj, downloadPath string) <-chan *error {
 	var wg sync.WaitGroup
 	counter := 0
 	out := make(chan *error)
 
 	for resp := range in {
+		counter++
 		wg.Add(1)
 
-		go func(resp *httpRespObj, counter int) {
+		go func(resp byteErrObj, counter int) {
 			var result GetItemResponse
-
 			defer wg.Done()
 
 			if resp.Error != nil {
 				out <- resp.Error
+				return
 			}
 
-
-			data, err := ioutil.ReadAll(resp.Response.Body)
-			if err != nil {
-				out <- &err
-			}
-			defer resp.Response.Body.Close()
-
-			err = xml.Unmarshal(data, &result)
+			err := xml.Unmarshal(resp.Body, &result)
 			if err != nil {
 				out <- &err
 			}
@@ -189,6 +190,7 @@ func (ec *EbayClient) downloadResp(in <-chan *httpRespObj, downloadPath string) 
 			if err != nil {
 				out <- &err
 			}
+			fmt.Printf("Downloaded XML Response: %v\n", counter)
 		}(resp, counter)
 	}
 

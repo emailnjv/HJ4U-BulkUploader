@@ -20,20 +20,32 @@ import (
 	"github.com/valyala/fasthttp"
 
 	"github.com/emailnjv/HJ4U-BulkUploader/ebay"
+	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
-func (sc *SiteClient) DownloadAllImages(responseDirectory string, targetDirectory string) error {
+func (sc *SiteClient) DownloadAllImages(responseDirectory string, targetDirectory string) {
 	var wg sync.WaitGroup
-	out := make(chan *error)
+	out := make(chan error)
 
-	// for err := range sc.createImage(sc.addThumbnails(sc.fetchImgResponses(sc.fetchImageURLS(sc.readDir(responseDirectory))), targetDirectory)) {
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println("Finished")
+	var waitTime string
+	if waitTime = os.Getenv("API_CALL_DELAY"); waitTime == "" {
+		waitTime = "0"
+	}
 
-	for err := range sc.fetchImageURLS(sc.readDir(responseDirectory)) {
+	waitTimeInt, err := strconv.Atoi(waitTime)
+	if err != nil {
+		panic(err)
+	}
+
+
+	for DownloadInfo := range sc.fetchImageURLS(sc.readDir(responseDirectory)) {
+		if DownloadInfo.Err != nil {
+			fmt.Println(DownloadInfo.Err)
+		}
+		DownloadInfo.DownloadPath = targetDirectory
 		wg.Add(1)
-		fmt.Println(err)
+		time.Sleep(time.Duration(waitTimeInt) * time.Millisecond)
+		go sc.ImageHandler.DownloadImage(&wg, out, *DownloadInfo)
 	}
 
 	go func() {
@@ -41,10 +53,12 @@ func (sc *SiteClient) DownloadAllImages(responseDirectory string, targetDirector
 		close(out)
 	}()
 
-	fmt.Println("Finished")
-	return nil
-}
+	for err := range out {
+		fmt.Println(err)
+	}
 
+	fmt.Println("Finished")
+}
 
 type xmlRespObj struct {
 	Response ebay.GetItemResponse
@@ -107,30 +121,24 @@ func (sc *SiteClient) readDir(targetDir string) <-chan *xmlRespObj {
 	return out
 }
 
-type idNurl struct {
-	Err       error
-	PhotoName string
-	ImageURL  string
-}
-
-func (sc *SiteClient) fetchImageURLS(in <-chan *xmlRespObj) <-chan *idNurl {
+func (sc *SiteClient) fetchImageURLS(in <-chan *xmlRespObj) <-chan *utils.ImageDownloadInfo {
 	var wg sync.WaitGroup
-	out := make(chan *idNurl)
+	out := make(chan *utils.ImageDownloadInfo)
 
 	for xmlResp := range in {
 		wg.Add(1)
 		go func(xmlResp *xmlRespObj) {
 			defer wg.Done()
-			if xmlResp.Error != nil || xmlResp.Response.Ack == "Failure!" {
-				out <- &idNurl{
+			if xmlResp.Error != nil || xmlResp.Response.Ack == "Failure" {
+				out <- &utils.ImageDownloadInfo{
 					Err: xmlResp.Error,
 				}
 				return
 			}
 			for index, photoURL := range xmlResp.Response.Item.PictureDetails.PictureURL {
-				out <- &idNurl{
+				out <- &utils.ImageDownloadInfo{
 					Err:       nil,
-					PhotoName: fmt.Sprintf("%v_%v.%v", xmlResp.Response.Item.ItemID, index, sc.ImageHandler.GetImageExtension(photoURL)),
+					PhotoName: fmt.Sprintf("%v_%v.%v", xmlResp.Response.Item.ItemID, index, strings.ToLower(sc.ImageHandler.GetImageExtension(photoURL))),
 					ImageURL:  photoURL,
 				}
 			}
@@ -151,7 +159,7 @@ type nameNbytes struct {
 	Err       error
 }
 
-func (sc *SiteClient) fetchImgResponses(in <-chan *idNurl) <-chan *nameNbytes {
+func (sc *SiteClient) fetchImgResponses(in <-chan *utils.ImageDownloadInfo) <-chan *nameNbytes {
 	var wg sync.WaitGroup
 	out := make(chan *nameNbytes)
 
@@ -180,7 +188,7 @@ func (sc *SiteClient) fetchImgResponses(in <-chan *idNurl) <-chan *nameNbytes {
 		wg.Add(1)
 		time.Sleep(time.Duration(waitTimeInt) * time.Millisecond)
 
-		go func(urlObj *idNurl, client *fasthttp.Client) {
+		go func(urlObj *utils.ImageDownloadInfo, client *fasthttp.Client) {
 			defer wg.Done()
 			if urlObj.Err != nil {
 				out <- &nameNbytes{
@@ -422,15 +430,15 @@ func (sc *SiteClient) addThumbnails(in <-chan *nameNbytes, downloadDirectory str
 	return out
 }
 
-func (sc *SiteClient) createImage(in <-chan *nameNbytes) <-chan *error {
+func (sc *SiteClient) createImage(in <-chan *nameNbytes) <-chan error {
 	var wg sync.WaitGroup
-	out := make(chan *error)
+	out := make(chan error)
 
 	for byteObj := range in {
 		wg.Add(1)
 		go func(byteObj *nameNbytes) {
 			if byteObj.Err != nil {
-				out <- &byteObj.Err
+				out <- byteObj.Err
 				return
 			}
 
@@ -438,7 +446,7 @@ func (sc *SiteClient) createImage(in <-chan *nameNbytes) <-chan *error {
 
 			file, err := os.Create(byteObj.PhotoName)
 			if err != nil {
-				out <- &err
+				out <- err
 				return
 			}
 
@@ -447,7 +455,7 @@ func (sc *SiteClient) createImage(in <-chan *nameNbytes) <-chan *error {
 			// Copy the image to the file
 			byteSize, err := io.Copy(file, reader)
 			if err != nil {
-				out <- &err
+				out <- err
 				return
 			}
 
@@ -455,7 +463,7 @@ func (sc *SiteClient) createImage(in <-chan *nameNbytes) <-chan *error {
 
 			defer file.Close()
 
-			out <- &err
+			out <- err
 		}(byteObj)
 	}
 

@@ -22,7 +22,10 @@ func NewSCPClient() (SCPClient, error) {
 	// Load ENVs
 	err := godotenv.Load("../.env")
 	if err != nil {
-		return SCPClient{}, err
+		err = godotenv.Load(".env")
+		if err != nil {
+			return SCPClient{}, err
+		}
 	}
 
 	host := os.Getenv("SSH_HOST")

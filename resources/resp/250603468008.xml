@@ -1,5 +1,5 @@
 <GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
- <Timestamp>2020-05-23T00:28:44.970Z</Timestamp>
+ <Timestamp>2020-05-26T07:08:38.641Z</Timestamp>
  <Ack>Success</Ack>
  <Version>1155</Version>
  <Build>E1155_CORE_API_19197321_R1</Build>
@@ -22,7 +22,7 @@
    <ConvertedReservePrice currencyID="USD">0.0</ConvertedReservePrice>
    <HasReservePrice>false</HasReservePrice>
    <StartTime>2010-03-24T20:07:51.000Z</StartTime>
-   <EndTime>2020-05-24T20:07:51.000Z</EndTime>
+   <EndTime>2020-06-24T20:07:51.000Z</EndTime>
    <ViewItemURL>https://www.ebay.com/itm/Chamart-Limoges-France-Hand-Painted-Colorful-Purple-Floral-Egg-Trinket-Box-/250603468008</ViewItemURL>
    <HasUnansweredQuestions>true</HasUnansweredQuestions>
    <HasPublicMessages>false</HasPublicMessages>
@@ -58,7 +58,7 @@
   <Seller>
    <AboutMePage>false</AboutMePage>
    <Email>alwaysgreatdeals4u@yahoo.com</Email>
-   <FeedbackScore>16039</FeedbackScore>
+   <FeedbackScore>16052</FeedbackScore>
    <PositiveFeedbackPercent>99.1</PositiveFeedbackPercent>
    <FeedbackPrivate>false</FeedbackPrivate>
    <IDVerified>false</IDVerified>
@@ -123,112 +123,112 @@
    <ThirdPartyCheckout>false</ThirdPartyCheckout>
    <ShippingDiscountProfileID>0</ShippingDiscountProfileID>
    <InternationalShippingDiscountProfileID>0</InternationalShippingDiscountProfileID>
-   <ExcludeShipToLocation>AF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BT</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>IN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>UZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>LK</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NP</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MV</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MH</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KI</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SB</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>PF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CK</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>FM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NR</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>FJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>PW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>WS</ExcludeShipToLocation>
    <ExcludeShipToLocation>TV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KI</ExcludeShipToLocation>
    <ExcludeShipToLocation>VU</ExcludeShipToLocation>
    <ExcludeShipToLocation>WF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>PF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CK</ExcludeShipToLocation>
    <ExcludeShipToLocation>NC</ExcludeShipToLocation>
    <ExcludeShipToLocation>PG</ExcludeShipToLocation>
    <ExcludeShipToLocation>NU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>RS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BY</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SB</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TO</ExcludeShipToLocation>
+   <ExcludeShipToLocation>FM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>FJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NR</ExcludeShipToLocation>
+   <ExcludeShipToLocation>PW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>WS</ExcludeShipToLocation>
    <ExcludeShipToLocation>BA</ExcludeShipToLocation>
    <ExcludeShipToLocation>SM</ExcludeShipToLocation>
    <ExcludeShipToLocation>MK</ExcludeShipToLocation>
    <ExcludeShipToLocation>MD</ExcludeShipToLocation>
    <ExcludeShipToLocation>UA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AD</ExcludeShipToLocation>
    <ExcludeShipToLocation>VA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AL</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AD</ExcludeShipToLocation>
    <ExcludeShipToLocation>ME</ExcludeShipToLocation>
    <ExcludeShipToLocation>SJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AL</ExcludeShipToLocation>
+   <ExcludeShipToLocation>RS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BY</ExcludeShipToLocation>
    <ExcludeShipToLocation>LA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>DJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>EH</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>RW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GH</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GQ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>RE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MR</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>LY</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BI</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TD</ExcludeShipToLocation>
    <ExcludeShipToLocation>LR</ExcludeShipToLocation>
    <ExcludeShipToLocation>TG</ExcludeShipToLocation>
    <ExcludeShipToLocation>ZW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GM</ExcludeShipToLocation>
    <ExcludeShipToLocation>TN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BI</ExcludeShipToLocation>
    <ExcludeShipToLocation>NE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>LS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>ZM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SL</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SZ</ExcludeShipToLocation>
    <ExcludeShipToLocation>KE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>ET</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>LS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>ZM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SL</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BF</ExcludeShipToLocation>
    <ExcludeShipToLocation>ZA</ExcludeShipToLocation>
    <ExcludeShipToLocation>NA</ExcludeShipToLocation>
    <ExcludeShipToLocation>TZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CI</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AO</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CF</ExcludeShipToLocation>
    <ExcludeShipToLocation>UG</ExcludeShipToLocation>
    <ExcludeShipToLocation>SC</ExcludeShipToLocation>
-   <ExcludeShipToLocation>DZ</ExcludeShipToLocation>
    <ExcludeShipToLocation>ML</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>ET</ExcludeShipToLocation>
    <ExcludeShipToLocation>SO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CD</ExcludeShipToLocation>
    <ExcludeShipToLocation>MZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BJ</ExcludeShipToLocation>
    <ExcludeShipToLocation>YT</ExcludeShipToLocation>
    <ExcludeShipToLocation>SH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CI</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>DZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>EH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>RW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GN</ExcludeShipToLocation>
    <ExcludeShipToLocation>ER</ExcludeShipToLocation>
-   <ExcludeShipToLocation>YE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>IQ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>RE</ExcludeShipToLocation>
+   <ExcludeShipToLocation>DJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MR</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SN</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>LY</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GQ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MG</ExcludeShipToLocation>
    <ExcludeShipToLocation>OM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>IQ</ExcludeShipToLocation>
    <ExcludeShipToLocation>TR</ExcludeShipToLocation>
    <ExcludeShipToLocation>LB</ExcludeShipToLocation>
+   <ExcludeShipToLocation>YE</ExcludeShipToLocation>
+   <ExcludeShipToLocation>LK</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NP</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GE</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BT</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MN</ExcludeShipToLocation>
+   <ExcludeShipToLocation>UZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>IN</ExcludeShipToLocation>
    <SellerExcludeShipToLocationsPreference>true</SellerExcludeShipToLocationsPreference>
   </ShippingDetails>
   <ShipToLocations>US</ShipToLocations>
@@ -330,9 +330,9 @@
    <StoreCategory2ID>0</StoreCategory2ID>
    <StoreURL>https://stores.ebay.com/alwaysadeal4u</StoreURL>
   </Storefront>
-  <TimeLeft>P1DT19H39M7S</TimeLeft>
+  <TimeLeft>P29DT12H59M13S</TimeLeft>
   <Title>Chamart Limoges France Hand Painted Colorful Purple Floral Egg Trinket Box</Title>
-  <HitCount>2175</HitCount>
+  <HitCount>2176</HitCount>
   <LocationDefaulted>true</LocationDefaulted>
   <GetItFast>false</GetItFast>
   <BuyerResponsibleForShipping>false</BuyerResponsibleForShipping>

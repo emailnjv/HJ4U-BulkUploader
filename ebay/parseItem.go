@@ -16,12 +16,12 @@ import (
 // csvData is the product data row returned from the base CSV
 // apiCall is the result from calling the GetItem api call from Ebay
 // it returns the filled out product struct, an array of image URLs, and an error
-func (ec EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall GetItemResponse) (db.Product, []string, error){
+func (ec EbayClient) ParseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall GetItemResponse) (db.Product, []string, error) {
 	var product db.Product
 	var photoArray []string
 
 	rawPrice := csvData.Price[1:]
-	price, err := strconv.ParseFloat(rawPrice, 64)
+	price, err := strconv.ParseFloat(strings.ReplaceAll(rawPrice, ",", ""), 64)
 	if err != nil {
 		return product, photoArray, err
 	}
@@ -34,18 +34,18 @@ func (ec EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, a
 	timeStamp := time.Now()
 
 	p := db.Product{
-		Name:           strings.TrimSpace(html.UnescapeString(apiCall.Item.Title)),
-		Description:    apiCall.Item.Description,
-		Price:          price,
-		Featured:       0,
-		Date:           &timeStamp,
-		Main_cat:       catID,
-		Sub_cat:        subCatID,
-		Qty:            quantity,
-		Sku:            csvData.ItemID,
-		Product_type:   "simple",
+		Name:         strings.TrimSpace(html.UnescapeString(apiCall.Item.Title)),
+		Description:  apiCall.Item.Description,
+		Price:        price,
+		Featured:     0,
+		Date:         &timeStamp,
+		Main_cat:     catID,
+		Sub_cat:      subCatID,
+		Qty:          quantity,
+		Sku:          csvData.ItemID,
+		Product_type: "simple",
 	}
-	if apiCall.Item.ProductListingDetails.UPC != "" {
+	if apiCall.Item.ProductListingDetails.UPC != "" && apiCall.Item.ProductListingDetails.UPC != "Does not apply"{
 		p.Upc = apiCall.Item.ProductListingDetails.UPC
 	} else {
 		p.Upc = csvData.ItemID
@@ -53,5 +53,3 @@ func (ec EbayClient) parseItem(catID int, subCatID int, csvData utils.CSVLine, a
 
 	return p, apiCall.Item.PictureDetails.PictureURL, err
 }
-
-

@@ -1,32 +1,32 @@
 <GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
- <Timestamp>2020-05-26T07:08:38.641Z</Timestamp>
+ <Timestamp>2020-05-26T07:11:22.408Z</Timestamp>
  <Ack>Success</Ack>
  <Version>1155</Version>
  <Build>E1155_CORE_API_19197321_R1</Build>
  <Item>
-  <AutoPay>true</AutoPay>
-  <BuyerProtection>ItemEligible</BuyerProtection>
+  <AutoPay>false</AutoPay>
+  <BuyerProtection>ItemIneligible</BuyerProtection>
   <BuyItNowPrice currencyID="USD">0.0</BuyItNowPrice>
   <Country>US</Country>
   <Currency>USD</Currency>
-  <Description>&lt;font rwr=&#34;1&#34; size=&#34;4&#34; style=&#34;font-family:Arial&#34;&gt;&#xA;&lt;div&gt;&lt;table cellpadding=&#34;0&#34; cellspacing=&#34;0&#34;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td colspan=&#34;2&#34;&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;table cellpadding=&#34;8&#34;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Chamart Limoges France Hand Painted Colorful Purple Floral Egg_Trinket Box&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;L4-3/4&#34; X W3-1/2&#34; X H3-1/4&#34;&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Limoges was produced by a number of factories in France from the late 1700s until around 1930. When valuing a piece, looking at the quality of the decoration can often be more important than determining the age. There are currently few Limoges reproductions on the market. The Limoges porcelain sought by collectors today was actually produced by a number of factories in the Limoges region of France from the late 1700s until around 1930. Production did not cease in 1930, however. This arbitrary cutoff date simply denotes a change in the global economy when the styles of Limoges wares notably changed from very elaborate to more basic in design&lt;/b&gt;&lt;/li&gt;&lt;li&gt;&lt;b&gt;191&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;strong style=&#34;font-size: large;&#34;&gt;&lt;br&gt;&lt;br&gt;111/191&lt;/strong&gt;&lt;p&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&#xA;&#xA;&#xA;&lt;/font&gt;</Description>
+  <Description>&lt;font rwr=&#39;1&#39; size=&#39;4&#39; style=&#39;font-family:Arial&#39;&gt;&lt;ul&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;Lobster Clasps 10/12/14 mm Silver/Gold Plated, Gun Metal, Rhodium, KC Gold and Brass&amp;nbsp;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;10 mm x 6 mm&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;12 mm x 7 mm&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;14 mm x 9 mm&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;Choose your own quantity and size&amp;nbsp;&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font face=&#34;Arial&#34; size=&#34;4&#34;&gt;We also have sizes 16, 18, and 21 mm available, check for the listing in our store&amp;nbsp;&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/font&gt;</Description>
   <GiftIcon>0</GiftIcon>
-  <HitCounter>RetroStyle</HitCounter>
-  <ItemID>250603468008</ItemID>
+  <HitCounter>NoHitCounter</HitCounter>
+  <ItemID>254564115028</ItemID>
   <ListingDetails>
    <Adult>false</Adult>
    <BindingAuction>false</BindingAuction>
    <CheckoutEnabled>true</CheckoutEnabled>
    <ConvertedBuyItNowPrice currencyID="USD">0.0</ConvertedBuyItNowPrice>
-   <ConvertedStartPrice currencyID="USD">29.99</ConvertedStartPrice>
+   <ConvertedStartPrice currencyID="USD">2.5</ConvertedStartPrice>
    <ConvertedReservePrice currencyID="USD">0.0</ConvertedReservePrice>
    <HasReservePrice>false</HasReservePrice>
-   <StartTime>2010-03-24T20:07:51.000Z</StartTime>
-   <EndTime>2020-06-24T20:07:51.000Z</EndTime>
-   <ViewItemURL>https://www.ebay.com/itm/Chamart-Limoges-France-Hand-Painted-Colorful-Purple-Floral-Egg-Trinket-Box-/250603468008</ViewItemURL>
-   <HasUnansweredQuestions>true</HasUnansweredQuestions>
+   <StartTime>2020-04-08T19:56:41.000Z</StartTime>
+   <EndTime>2020-06-08T19:56:41.000Z</EndTime>
+   <ViewItemURL>https://www.ebay.com/itm/Lobster-Clasps-10-12-14mm-Silver-Gold-Plated-Gun-Metal-Rhodium-KC-Gold-Brass-/254564115028</ViewItemURL>
+   <HasUnansweredQuestions>false</HasUnansweredQuestions>
    <HasPublicMessages>false</HasPublicMessages>
-   <ViewItemURLForNaturalSearch>https://www.ebay.com/itm/Chamart-Limoges-France-Hand-Painted-Colorful-Purple-Floral-Egg-Trinket-Box-/250603468008</ViewItemURLForNaturalSearch>
+   <ViewItemURLForNaturalSearch>https://www.ebay.com/itm/Lobster-Clasps-10-12-14mm-Silver-Gold-Plated-Gun-Metal-Rhodium-KC-Gold-Brass-/254564115028</ViewItemURLForNaturalSearch>
   </ListingDetails>
   <ListingDesigner>
    <LayoutID>10000</LayoutID>
@@ -35,25 +35,25 @@
   <ListingDuration>GTC</ListingDuration>
   <ListingType>FixedPriceItem</ListingType>
   <Location>Paterson, New Jersey</Location>
-  <PaymentMethods>PayPal</PaymentMethods>
+  <PaymentMethods>CashOnPickup</PaymentMethods>
   <PayPalEmailAddress>ALWAYSGREATDEALS4U@YAHOO.COM</PayPalEmailAddress>
   <PrimaryCategory>
-   <CategoryID>13816</CategoryID>
-   <CategoryName>Collectibles:Decorative Collectibles:Decorative Collectible Brands:Limoges:Trinket Boxes</CategoryName>
+   <CategoryID>67716</CategoryID>
+   <CategoryName>Jewelry &amp; Watches:Jewelry Design &amp; Repair:Jewelry Findings:Clasps &amp; Hooks</CategoryName>
   </PrimaryCategory>
   <PrivateListing>false</PrivateListing>
   <ProductListingDetails>
    <UPC></UPC>
    <BrandMPN>
-    <Brand>Limoges</Brand>
+    <Brand>Unbranded</Brand>
     <MPN></MPN>
    </BrandMPN>
    <IncludeeBayProductDetails>true</IncludeeBayProductDetails>
   </ProductListingDetails>
-  <Quantity>6</Quantity>
+  <Quantity>540</Quantity>
   <ReservePrice currencyID="USD">0.0</ReservePrice>
   <ReviseStatus>
-   <ItemRevised>true</ItemRevised>
+   <ItemRevised>false</ItemRevised>
   </ReviseStatus>
   <Seller>
    <AboutMePage>false</AboutMePage>
@@ -89,11 +89,11 @@
   <SellingStatus>
    <BidCount>0</BidCount>
    <BidIncrement currencyID="USD">0.0</BidIncrement>
-   <ConvertedCurrentPrice currencyID="USD">29.99</ConvertedCurrentPrice>
-   <CurrentPrice currencyID="USD">29.99</CurrentPrice>
+   <ConvertedCurrentPrice currencyID="USD">2.5</ConvertedCurrentPrice>
+   <CurrentPrice currencyID="USD">2.5</CurrentPrice>
    <LeadCount>0</LeadCount>
-   <MinimumToBid currencyID="USD">29.99</MinimumToBid>
-   <QuantitySold>1</QuantitySold>
+   <MinimumToBid currencyID="USD">2.5</MinimumToBid>
+   <QuantitySold>0</QuantitySold>
    <ReserveMet>true</ReserveMet>
    <SecondChanceEligible>false</SecondChanceEligible>
    <ListingStatus>Active</ListingStatus>
@@ -111,127 +111,128 @@
     <ShippingIncludedInTax>false</ShippingIncludedInTax>
    </SalesTax>
    <ShippingServiceOptions>
-    <ShippingService>ShippingMethodStandard</ShippingService>
-    <ShippingServiceCost currencyID="USD">0.0</ShippingServiceCost>
-    <ShippingServiceAdditionalCost currencyID="USD">0.0</ShippingServiceAdditionalCost>
+    <ShippingService>USPSFirstClass</ShippingService>
+    <ShippingServiceCost currencyID="USD">3.99</ShippingServiceCost>
+    <ShippingServiceAdditionalCost currencyID="USD">0.99</ShippingServiceAdditionalCost>
     <ShippingServicePriority>1</ShippingServicePriority>
     <ExpeditedService>false</ExpeditedService>
-    <ShippingTimeMin>1</ShippingTimeMin>
-    <ShippingTimeMax>5</ShippingTimeMax>
+    <ShippingTimeMin>2</ShippingTimeMin>
+    <ShippingTimeMax>3</ShippingTimeMax>
    </ShippingServiceOptions>
    <ShippingType>Flat</ShippingType>
    <ThirdPartyCheckout>false</ThirdPartyCheckout>
    <ShippingDiscountProfileID>0</ShippingDiscountProfileID>
    <InternationalShippingDiscountProfileID>0</InternationalShippingDiscountProfileID>
-   <ExcludeShipToLocation>TV</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KI</ExcludeShipToLocation>
-   <ExcludeShipToLocation>VU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>WF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>PF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CK</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NC</ExcludeShipToLocation>
-   <ExcludeShipToLocation>PG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MH</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SB</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GU</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>FM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>FJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NR</ExcludeShipToLocation>
-   <ExcludeShipToLocation>PW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>WS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MK</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MD</ExcludeShipToLocation>
-   <ExcludeShipToLocation>UA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>VA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AD</ExcludeShipToLocation>
-   <ExcludeShipToLocation>ME</ExcludeShipToLocation>
-   <ExcludeShipToLocation>SJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AL</ExcludeShipToLocation>
-   <ExcludeShipToLocation>RS</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BY</ExcludeShipToLocation>
    <ExcludeShipToLocation>LA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GQ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NG</ExcludeShipToLocation>
    <ExcludeShipToLocation>LR</ExcludeShipToLocation>
    <ExcludeShipToLocation>TG</ExcludeShipToLocation>
    <ExcludeShipToLocation>ZW</ExcludeShipToLocation>
    <ExcludeShipToLocation>TN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BI</ExcludeShipToLocation>
    <ExcludeShipToLocation>NE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KE</ExcludeShipToLocation>
    <ExcludeShipToLocation>LS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BI</ExcludeShipToLocation>
    <ExcludeShipToLocation>ZM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KE</ExcludeShipToLocation>
    <ExcludeShipToLocation>SL</ExcludeShipToLocation>
    <ExcludeShipToLocation>SZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TD</ExcludeShipToLocation>
    <ExcludeShipToLocation>ZA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GM</ExcludeShipToLocation>
    <ExcludeShipToLocation>NA</ExcludeShipToLocation>
    <ExcludeShipToLocation>TZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BF</ExcludeShipToLocation>
    <ExcludeShipToLocation>UG</ExcludeShipToLocation>
    <ExcludeShipToLocation>SC</ExcludeShipToLocation>
    <ExcludeShipToLocation>ML</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>ET</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AO</ExcludeShipToLocation>
    <ExcludeShipToLocation>SO</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GA</ExcludeShipToLocation>
    <ExcludeShipToLocation>MZ</ExcludeShipToLocation>
    <ExcludeShipToLocation>YT</ExcludeShipToLocation>
+   <ExcludeShipToLocation>ET</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CD</ExcludeShipToLocation>
    <ExcludeShipToLocation>SH</ExcludeShipToLocation>
    <ExcludeShipToLocation>CI</ExcludeShipToLocation>
    <ExcludeShipToLocation>GW</ExcludeShipToLocation>
    <ExcludeShipToLocation>DZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KM</ExcludeShipToLocation>
    <ExcludeShipToLocation>MA</ExcludeShipToLocation>
-   <ExcludeShipToLocation>EH</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BJ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CV</ExcludeShipToLocation>
    <ExcludeShipToLocation>MU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>EH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KM</ExcludeShipToLocation>
    <ExcludeShipToLocation>RW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BJ</ExcludeShipToLocation>
    <ExcludeShipToLocation>GN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>ER</ExcludeShipToLocation>
    <ExcludeShipToLocation>RE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>DJ</ExcludeShipToLocation>
    <ExcludeShipToLocation>MR</ExcludeShipToLocation>
+   <ExcludeShipToLocation>ER</ExcludeShipToLocation>
    <ExcludeShipToLocation>SN</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>CG</ExcludeShipToLocation>
    <ExcludeShipToLocation>MW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>DJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CM</ExcludeShipToLocation>
    <ExcludeShipToLocation>LY</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GQ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>BW</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MG</ExcludeShipToLocation>
    <ExcludeShipToLocation>OM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>IQ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TR</ExcludeShipToLocation>
    <ExcludeShipToLocation>LB</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TR</ExcludeShipToLocation>
    <ExcludeShipToLocation>YE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>LK</ExcludeShipToLocation>
-   <ExcludeShipToLocation>NP</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>MV</ExcludeShipToLocation>
-   <ExcludeShipToLocation>GE</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AM</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KG</ExcludeShipToLocation>
-   <ExcludeShipToLocation>AF</ExcludeShipToLocation>
-   <ExcludeShipToLocation>KZ</ExcludeShipToLocation>
-   <ExcludeShipToLocation>TM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>IQ</ExcludeShipToLocation>
    <ExcludeShipToLocation>BT</ExcludeShipToLocation>
    <ExcludeShipToLocation>MN</ExcludeShipToLocation>
    <ExcludeShipToLocation>UZ</ExcludeShipToLocation>
    <ExcludeShipToLocation>TJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>LK</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NP</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MV</ExcludeShipToLocation>
    <ExcludeShipToLocation>IN</ExcludeShipToLocation>
-   <SellerExcludeShipToLocationsPreference>true</SellerExcludeShipToLocationsPreference>
+   <ExcludeShipToLocation>AZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GE</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KZ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TO</ExcludeShipToLocation>
+   <ExcludeShipToLocation>FM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NR</ExcludeShipToLocation>
+   <ExcludeShipToLocation>GU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>FJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>PW</ExcludeShipToLocation>
+   <ExcludeShipToLocation>WS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>TV</ExcludeShipToLocation>
+   <ExcludeShipToLocation>VU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>WF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>KI</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NC</ExcludeShipToLocation>
+   <ExcludeShipToLocation>PG</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MH</ExcludeShipToLocation>
+   <ExcludeShipToLocation>NU</ExcludeShipToLocation>
+   <ExcludeShipToLocation>PF</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SB</ExcludeShipToLocation>
+   <ExcludeShipToLocation>CK</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AL</ExcludeShipToLocation>
+   <ExcludeShipToLocation>AD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BY</ExcludeShipToLocation>
+   <ExcludeShipToLocation>BA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MK</ExcludeShipToLocation>
+   <ExcludeShipToLocation>MD</ExcludeShipToLocation>
+   <ExcludeShipToLocation>ME</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SM</ExcludeShipToLocation>
+   <ExcludeShipToLocation>RS</ExcludeShipToLocation>
+   <ExcludeShipToLocation>SJ</ExcludeShipToLocation>
+   <ExcludeShipToLocation>UA</ExcludeShipToLocation>
+   <ExcludeShipToLocation>VA</ExcludeShipToLocation>
+   <SellerExcludeShipToLocationsPreference>false</SellerExcludeShipToLocationsPreference>
   </ShippingDetails>
   <ShipToLocations>US</ShipToLocations>
+  <ShipToLocations>CA</ShipToLocations>
   <ShipToLocations>GB</ShipToLocations>
   <ShipToLocations>DK</ShipToLocations>
   <ShipToLocations>RO</ShipToLocations>
@@ -284,7 +285,6 @@
   <ShipToLocations>BR</ShipToLocations>
   <ShipToLocations>CL</ShipToLocations>
   <ShipToLocations>CR</ShipToLocations>
-  <ShipToLocations>DO</ShipToLocations>
   <ShipToLocations>PA</ShipToLocations>
   <ShipToLocations>TT</ShipToLocations>
   <ShipToLocations>GT</ShipToLocations>
@@ -322,34 +322,30 @@
   <ShipToLocations>VN</ShipToLocations>
   <ShipToLocations>UY</ShipToLocations>
   <ShipToLocations>RU</ShipToLocations>
-  <ShipToLocations>CA</ShipToLocations>
   <Site>US</Site>
-  <StartPrice currencyID="USD">29.99</StartPrice>
+  <StartPrice currencyID="USD">2.5</StartPrice>
   <Storefront>
-   <StoreCategoryID>4245939017</StoreCategoryID>
+   <StoreCategoryID>29270357017</StoreCategoryID>
    <StoreCategory2ID>0</StoreCategory2ID>
    <StoreURL>https://stores.ebay.com/alwaysadeal4u</StoreURL>
   </Storefront>
-  <TimeLeft>P29DT12H59M13S</TimeLeft>
-  <Title>Chamart Limoges France Hand Painted Colorful Purple Floral Egg Trinket Box</Title>
-  <HitCount>2176</HitCount>
+  <TimeLeft>P13DT12H45M19S</TimeLeft>
+  <Title>Lobster Clasps 10/12/14mm Silver/Gold Plated,Gun Metal, Rhodium, KC Gold &amp; Brass</Title>
+  <HitCount>72</HitCount>
   <LocationDefaulted>true</LocationDefaulted>
   <GetItFast>false</GetItFast>
   <BuyerResponsibleForShipping>false</BuyerResponsibleForShipping>
-  <SKU>191PURPLE</SKU>
+  <SKU>lobsterr10-12-14</SKU>
   <PostalCode>07501</PostalCode>
   <PictureDetails>
    <GalleryType>Gallery</GalleryType>
-   <GalleryURL>https://i.ebayimg.com/00/s/MTYwMFgxMTcx/z/H~wAAOSwTZ9eJ21u/$_57.JPG?set_id=8800005007</GalleryURL>
+   <GalleryURL>https://i.ebayimg.com/00/s/MTU1MFgxNjAw/z/cpcAAOSwsEtejh0a/$_57.JPG?set_id=8800005007</GalleryURL>
    <PhotoDisplay>PicturePack</PhotoDisplay>
-   <PictureURL>https://i.ebayimg.com/00/s/MTYwMFgxMTcx/z/H~wAAOSwTZ9eJ21u/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTE0MVgxNjAw/z/kPQAAOSwjhJeJ212/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTIwNlgxNjAw/z/~qMAAOSwYA5eJ21x/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTIyN1gxNjAw/z/THMAAOSwfEJeJ21z/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTE2MVgxNjAw/z/SP4AAOSwA89eJ21w/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTAyOVgxNjAw/z/aQMAAOSwGzNeJ219/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTAwNVgxNjAw/z/KCYAAOSwTRZeJ22D/$_57.JPG?set_id=8800005007</PictureURL>
-   <PictureURL>https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/VxQAAOSw7t9eJ21~/$_57.JPG?set_id=8800005007</PictureURL>
+   <PictureURL>https://i.ebayimg.com/00/s/MTU1MFgxNjAw/z/cpcAAOSwsEtejh0a/$_57.JPG?set_id=8800005007</PictureURL>
+   <PictureURL>https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/v3cAAOSwwnpejil~/$_57.JPG?set_id=8800005007</PictureURL>
+   <PictureURL>https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/PJ8AAOSwC9RejimC/$_57.JPG?set_id=8800005007</PictureURL>
+   <PictureURL>https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/m64AAOSw~15ejimE/$_57.JPG?set_id=8800005007</PictureURL>
+   <PictureURL>https://i.ebayimg.com/00/s/MTA2N1gxNjAw/z/FZIAAOSwO-9ejimQ/$_57.JPG?set_id=8800005007</PictureURL>
    <PictureSource>EPS</PictureSource>
    <ExternalPictureURL></ExternalPictureURL>
   </PictureDetails>
@@ -359,41 +355,41 @@
   <BuyerRequirementDetails>
    <ShipToRegistrationCountry>true</ShipToRegistrationCountry>
    <MaximumItemRequirements>
-    <MaximumItemCount>10</MaximumItemCount>
-    <MinimumFeedbackScore>0</MinimumFeedbackScore>
+    <MaximumItemCount></MaximumItemCount>
+    <MinimumFeedbackScore></MinimumFeedbackScore>
    </MaximumItemRequirements>
    <MaximumUnpaidItemStrikesInfo>
     <Count>2</Count>
-    <Period>Days_30</Period>
+    <Period>Days_180</Period>
    </MaximumUnpaidItemStrikesInfo>
   </BuyerRequirementDetails>
   <IntangibleItem>false</IntangibleItem>
   <ReturnPolicy>
-   <RefundOption>MoneyBackOrReplacement</RefundOption>
-   <Refund>Money back or replacement (buyer&#39;s choice)</Refund>
-   <ReturnsWithinOption>Days_14</ReturnsWithinOption>
-   <ReturnsWithin>14 Days</ReturnsWithin>
+   <RefundOption>MoneyBack</RefundOption>
+   <Refund>Money Back</Refund>
+   <ReturnsWithinOption>Days_30</ReturnsWithinOption>
+   <ReturnsWithin>30 Days</ReturnsWithin>
    <ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
    <ReturnsAccepted>Returns Accepted</ReturnsAccepted>
-   <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
-   <ShippingCostPaidBy>Buyer</ShippingCostPaidBy>
+   <ShippingCostPaidByOption>Seller</ShippingCostPaidByOption>
+   <ShippingCostPaidBy>Seller</ShippingCostPaidBy>
    <InternationalReturnsAcceptedOption>ReturnsNotAccepted</InternationalReturnsAcceptedOption>
   </ReturnPolicy>
   <ConditionID>1000</ConditionID>
-  <ConditionDisplayName>New</ConditionDisplayName>
+  <ConditionDisplayName>New with tags</ConditionDisplayName>
   <PostCheckoutExperienceEnabled>false</PostCheckoutExperienceEnabled>
   <SellerProfiles>
    <SellerShippingProfile>
-    <ShippingProfileID>143394163024</ShippingProfileID>
-    <ShippingProfileName>Flat:Standard Shipp(Free),3 business days#0</ShippingProfileName>
+    <ShippingProfileID>143394215024</ShippingProfileID>
+    <ShippingProfileName>Flat:USPS First Cla($3.99),3 business days</ShippingProfileName>
    </SellerShippingProfile>
    <SellerReturnProfile>
-    <ReturnProfileID>109697644024</ReturnProfileID>
-    <ReturnProfileName>Returns Accepted,Buyer,14 Days,Money back or#12525</ReturnProfileName>
+    <ReturnProfileID>126700863024</ReturnProfileID>
+    <ReturnProfileName>Returns Accepted,Seller,30 Days,Money Back,In</ReturnProfileName>
    </SellerReturnProfile>
    <SellerPaymentProfile>
-    <PaymentProfileID>94346376024</PaymentProfileID>
-    <PaymentProfileName>PayPal:Immediate pay#0</PaymentProfileName>
+    <PaymentProfileID>60548149024</PaymentProfileID>
+    <PaymentProfileName>PayPal:Cash On Pickup Accepted#3</PaymentProfileName>
    </SellerPaymentProfile>
   </SellerProfiles>
   <ShippingServiceCostOverrideList>
@@ -406,7 +402,7 @@
   </ShippingServiceCostOverrideList>
   <ShippingPackageDetails>
    <ShippingIrregular>false</ShippingIrregular>
-   <ShippingPackage>Letter</ShippingPackage>
+   <ShippingPackage>PackageThickEnvelope</ShippingPackage>
    <WeightMajor measurementSystem="English" unit="lbs">0</WeightMajor>
    <WeightMinor measurementSystem="English" unit="oz">0</WeightMinor>
   </ShippingPackageDetails>

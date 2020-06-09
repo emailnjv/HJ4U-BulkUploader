@@ -24,11 +24,7 @@ resources/localDev
 vendor/
 
 *.ppk
-/resources/products/
-/resources/responses/
-/resources/resp/
 output.txt
-/resources/mergedProducts/
-/resources/missingProducts/
-/resources/missingResponses/
-/resources/mergedResponses/
+
+/resources/data/
+/resources/listings.csv

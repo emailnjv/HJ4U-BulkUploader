@@ -11,19 +11,21 @@ import (
 	"time"
 
 	"github.com/valyala/fasthttp"
+
+	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
 // getItem returns the data about a specific item when passed the ite ID
 // It returns an GetItemResponse object, or an error
-func (ec *EbayClient) GetItem(itemID string) (GetItemResponse, error) {
-	var result GetItemResponse
+func (ec *EbayClient) GetItem(itemID string) (utils.GetItemResponse, error) {
+	var result utils.GetItemResponse
 	var resp fasthttp.Response
 
 	// Get Route
 	route := ec.tradingAPIRouteBuilder()
 
 	// Create request body
-	XMLBody := GetItemRequest{
+	XMLBody := utils.GetItemRequest{
 		XMLName:       xml.Name{},
 		Text:          "utf-8",
 		Xmlns:         "urn:ebay:apis:eBLBaseComponents",
@@ -110,7 +112,7 @@ func (ec *EbayClient) getItemRawResponse(itemIDs ...string) <-chan byteErrObj {
 			var result byteErrObj
 
 			// Create request body
-			XMLBody := GetItemRequest{
+			XMLBody := utils.GetItemRequest{
 				XMLName:       xml.Name{},
 				Text:          "utf-8",
 				Xmlns:         "urn:ebay:apis:eBLBaseComponents",
@@ -168,7 +170,7 @@ func (ec *EbayClient) downloadResp(in <-chan byteErrObj, downloadPath string) <-
 		wg.Add(1)
 
 		go func(resp byteErrObj, counter int) {
-			var result GetItemResponse
+			var result utils.GetItemResponse
 			defer wg.Done()
 
 			if resp.Error != nil {

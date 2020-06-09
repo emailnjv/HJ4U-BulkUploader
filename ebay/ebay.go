@@ -46,10 +46,10 @@ func NewEbayClient() (EbayClient, error) {
 	return result, err
 }
 
-func (ec *EbayClient) GetProductInfo(catID int, subCatID int, csvData utils.CSVLine) (db.Product, []string, error) {
+func (ec *EbayClient) GetProductInfo(catID int, subCatID int, csvData utils.CSVLine) (db.Products, []string, error) {
 	apiResponse, err := ec.GetItem(csvData.ItemID)
 	if err != nil {
-		return db.Product{}, []string{}, err
+		return db.Products{}, []string{}, err
 	}
 	return ec.ParseItem(catID, subCatID, csvData, apiResponse)
 }

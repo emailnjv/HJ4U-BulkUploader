@@ -42,8 +42,13 @@ func NewTargetDBClient() (TargetDBClient, error) {
 		return result, err
 	}
 
+	result.db.SingularTable(true)
+
+
 	// Migrate the schema
-	result.db.AutoMigrate(&Product{})
+	result.db.AutoMigrate(&Products{})
+	result.db.AutoMigrate(&Media{})
+	result.db.AutoMigrate(&ProductAtt{})
 
 	// Enable Logger, show detailed log
 	// result.db.LogMode(true)

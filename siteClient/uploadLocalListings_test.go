@@ -1,40 +1,90 @@
 package siteClient
 
 import (
+	"fmt"
 	"testing"
+
+	"github.com/emailnjv/HJ4U-BulkUploader/db"
+	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
-func TestSiteClient_UploadLocalListings(t *testing.T) {
+// func TestSiteClient_UploadLocalListings(t *testing.T) {
+// 	type args struct {
+// 		listingDirectory string
+// 		imageDirectory   string
+// 	}
+// 	tests := []struct {
+// 		name    string
+// 		args    args
+// 		wantErr bool
+// 	}{
+// 		{"Test", args{
+// 			listingDirectory: "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp",
+// 			imageDirectory:   "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/mergedProducts",
+// 		}, false},
+// 	}
+// 	for _, tt := range tests {
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			sc, err := NewSiteClient()
+// 			if (err != nil) != tt.wantErr {
+// 				t.Errorf("NewSiteClient() error = %v, wantErr %v", err, tt.wantErr)
+// 				return
+// 			}
+//
+// 			sample := sampleMapping()
+//
+// 			if err := sc.UploadLocalListings(tt.args.listingDirectory, tt.args.imageDirectory, sample); (err != nil) != tt.wantErr {
+// 				t.Errorf("UploadLocalListings() error = %v, wantErr %v", err, tt.wantErr)
+// 			}
+// 		})
+// 	}
+// }
+
+func TestVarianceParser_HandleVariances(t *testing.T) {
 	type args struct {
-		listingDirectory string
-		imageDirectory   string
+		productID        int
+		varianceResponse []utils.GIGRItems
 	}
 	tests := []struct {
 		name    string
 		args    args
+		want    []*db.ProductAtt
 		wantErr bool
 	}{
-		{"Test", args{
-			listingDirectory: "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp",
-			imageDirectory:   "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/mergedProducts",
-		}, false},
+		{
+			name: "Variance Parser Test",
+			args: args{
+				productID: 1124,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			sc, err := NewSiteClient()
 			if (err != nil) != tt.wantErr {
-				t.Errorf("NewSiteClient() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("HandleVariances() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 
-			sample := sampleMapping()
-
-			if err := sc.UploadLocalListings(tt.args.listingDirectory, tt.args.imageDirectory, sample); (err != nil) != tt.wantErr {
-				t.Errorf("UploadLocalListings() error = %v, wantErr %v", err, tt.wantErr)
+			// map xml variance responses to listings
+			for jsonErrStruct := range sc.ReadVarDir("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/debugData/varianceResponses") {
+				if jsonErrStruct.Error != nil {
+					t.Errorf("ReadVarDir() error = %v, wantErr %v", err, tt.wantErr)
+					return
+				} else {
+					got, err := sc.VarianceParser.HandleVariances(tt.args.productID, jsonErrStruct.Response.Items)
+					if (err != nil) != tt.wantErr {
+						t.Errorf("HandleVariances() error = %v, wantErr %v", err, tt.wantErr)
+						return
+					}
+					fmt.Printf("%#v", got)
+				}
 			}
 		})
 	}
 }
+
 func sampleMapping() map[string]CategoryStruct {
 	result := make(map[string]CategoryStruct)
 	result["Beads"] = CategoryStruct{

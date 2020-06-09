@@ -16,8 +16,8 @@ import (
 // csvData is the product data row returned from the base CSV
 // apiCall is the result from calling the GetItem api call from Ebay
 // it returns the filled out product struct, an array of image URLs, and an error
-func (ec EbayClient) ParseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall GetItemResponse) (db.Product, []string, error) {
-	var product db.Product
+func (ec EbayClient) ParseItem(catID int, subCatID int, csvData utils.CSVLine, apiCall utils.GetItemResponse) (db.Products, []string, error) {
+	var product db.Products
 	var photoArray []string
 
 	rawPrice := csvData.Price[1:]
@@ -33,7 +33,7 @@ func (ec EbayClient) ParseItem(catID int, subCatID int, csvData utils.CSVLine, a
 
 	timeStamp := time.Now()
 
-	p := db.Product{
+	p := db.Products{
 		Name:         strings.TrimSpace(html.UnescapeString(apiCall.Item.Title)),
 		Description:  apiCall.Item.Description,
 		Price:        price,

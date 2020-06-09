@@ -3,17 +3,18 @@ package siteClient
 import (
 	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
 
 	"github.com/emailnjv/HJ4U-BulkUploader/db"
-	"github.com/emailnjv/HJ4U-BulkUploader/ebay"
 	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
 type listing struct {
-	XML    ebay.GetItemResponse
+	XML    utils.GetItemResponse
+	VarXML utils.GetItemGroupResponse
 	Images []string
 }
 
@@ -22,11 +23,12 @@ type CategoryStruct struct {
 	SubCategory  int
 }
 
-func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirectory string, categoryMapping map[string]CategoryStruct) error {
+func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirectory string, varianceDirectory string, categoryMapping map[string]CategoryStruct) error {
 	listingMap := make(map[string]*listing)
 	var missingXMLIDArr []string
 	var missingPhotoIDArr []string
 	var extraPhotoIDArr []string
+	var emptyProductAttributeArr []string
 
 	// map xml responses to images
 	for xmlErrStruct := range sc.readDir(listingDirectory) {
@@ -36,19 +38,32 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 			// Create entries in listing mapping
 			listingMap[xmlErrStruct.Response.Item.ItemID] = &listing{
 				XML:    xmlErrStruct.Response,
+				VarXML: utils.GetItemGroupResponse{},
 				Images: []string{},
 			}
 		}
 	}
 
+	// map xml variance responses to listings
+	for jsonErrStruct := range sc.ReadVarDir(varianceDirectory) {
+		if jsonErrStruct.Error != nil {
+			continue
+		} else {
+			if len(jsonErrStruct.Response.Items) > 0 {
+				// Create entries in listing mapping
+				listingMap[jsonErrStruct.Response.Items[0].LegacyItemID].VarXML =  jsonErrStruct.Response
+			}
+		}
+	}
+
 	// Read image directory
-	directoryContents, err := ioutil.ReadDir(imageDirectory)
+	imageDirectoryContents, err := ioutil.ReadDir(imageDirectory)
 	if err != nil {
 		return err
 	}
 
 	// Iterate over images and insert name into string array
-	for _, item := range directoryContents {
+	for _, item := range imageDirectoryContents {
 
 		// Get Name
 		photoName := item.Name()
@@ -74,7 +89,7 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 		panic(err)
 	}
 
-	// Loop through lines & turn into object
+	// Loop through lines & parse listings into DB
 	for index, line := range lines {
 		// If first line of CSV or listingMap[line[0]] != nil
 		if index != 0 || listingMap[line[0]] != nil {
@@ -124,6 +139,18 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 						return err
 					}
 
+					if len(listingMap[csvLine.ItemID].VarXML.Items) > 0 {
+						productAttributes, err := sc.VarianceParser.HandleVariances(id, listingMap[csvLine.ItemID].VarXML.Items)
+						if err != nil {
+							panic(fmt.Errorf("Error parsing variances\nItem ID: %v\nErr: %#v", csvLine.ItemID, err))
+						}
+						if len(productAttributes) > 0 {
+							err = sc.DBClient.GroupInsertProductAtt(productAttributes)
+						} else {
+							emptyProductAttributeArr = append(emptyProductAttributeArr, csvLine.ItemID)
+						}
+					}
+
 					// If images in array
 					if len(listing.Images) == 0 {
 						missingPhotoIDArr = append(missingPhotoIDArr, csvLine.ItemID)
@@ -152,6 +179,11 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 		_ = ioutil.WriteFile("extraPhotoIDs.json", file, 0644)
 	}
 
+	if len(emptyProductAttributeArr) > 0 {
+		file, _ := json.MarshalIndent(emptyProductAttributeArr, "", " ")
+		_ = ioutil.WriteFile("emptyProductAttributeIDs.json", file, 0644)
+	}
+
 	if len(missingXMLIDArr) > 0 {
 		file2, _ := json.MarshalIndent(missingXMLIDArr, "", " ")
 		_ = ioutil.WriteFile("missingXMLIDs.json", file2, 0644)
@@ -160,13 +192,8 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 	return nil
 }
 
-func (sc *SiteClient) getListingImages(imageDirectory string, listingMapping map[string]*listing) error {
-
-	return nil
-}
-
-func (sc *SiteClient) getProductObjects(categoryStruct CategoryStruct, xmlStruct ebay.GetItemResponse, line utils.CSVLine) (db.Product, error) {
-	var result db.Product
+func (sc *SiteClient) getProductObjects(categoryStruct CategoryStruct, xmlStruct utils.GetItemResponse, line utils.CSVLine) (db.Products, error) {
+	var result db.Products
 
 	// Get the product info
 	product, _, err := sc.EbayClient.ParseItem(categoryStruct.MainCategory, categoryStruct.SubCategory, line, xmlStruct)

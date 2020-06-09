@@ -63,8 +63,9 @@ func uploadLocalListings() error {
 	}
 	categoryMapping := sampleMapping()
 
-	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/mergedProducts", categoryMapping)
+	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/responses","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/varianceResponses", categoryMapping)
 }
+
 
 func runGroupedRespDownload(categories map[string]bool, downloadDirectory string) <-chan *error {
 	var IDArr []string

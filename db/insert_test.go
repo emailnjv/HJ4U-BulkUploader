@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var testProduct Product = Product{
+var testProduct Products = Products{
 	Name:         "Test Product",
 	Description:  "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.",
 	Price:        22.15,
@@ -23,7 +23,7 @@ func TestTargetDBClient_insertProduct(t *testing.T) {
 	now := time.Now()
 	testProduct.Date = &now
 	type args struct {
-		product *Product
+		product *Products
 	}
 	tests := []struct {
 		name    string

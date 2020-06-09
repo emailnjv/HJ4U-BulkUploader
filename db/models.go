@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type Product struct {
+type Products struct {
 	ID             int        `gorm:"column:id;type:int(11);AUTO_INCREMENT;PRIMARY_KEY`
 	Name           string     `gorm:"column:name;type:text"`
 	Description    string     `gorm:"column:descr;type:text"`
@@ -25,7 +25,7 @@ type ProductAtt struct {
 	PID    int     `gorm:"column:p_id;type:int(11)`
 	AKey   string  `gorm:"column:a_key;type:text"`
 	AValue string  `gorm:"column:a_value;type:text"`
-	price  float64 `gorm:"type:int(11)`
+	Price  float64 `gorm:"type:int(11)`
 }
 
 type Media struct {

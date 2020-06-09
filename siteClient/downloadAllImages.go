@@ -2,6 +2,7 @@ package siteClient
 
 import (
 	"bytes"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"image"
@@ -19,7 +20,6 @@ import (
 	"github.com/BurntSushi/graphics-go/graphics"
 	"github.com/valyala/fasthttp"
 
-	"github.com/emailnjv/HJ4U-BulkUploader/ebay"
 	"github.com/emailnjv/HJ4U-BulkUploader/utils"
 )
 
@@ -36,7 +36,6 @@ func (sc *SiteClient) DownloadAllImages(responseDirectory string, targetDirector
 	if err != nil {
 		panic(err)
 	}
-
 
 	for DownloadInfo := range sc.fetchImageURLS(sc.readDir(responseDirectory)) {
 		if DownloadInfo.Err != nil {
@@ -59,9 +58,26 @@ func (sc *SiteClient) DownloadAllImages(responseDirectory string, targetDirector
 
 	fmt.Println("Finished")
 }
+func (sc *SiteClient) DownloadAllIDs(responseDirectory string, targetDirectory string) {
+	var idArr []*string
+
+	for itemID := range sc.fetchItemIDs(sc.readDir(responseDirectory)) {
+		idArr = append(idArr, itemID)
+	}
+
+	file, _ := json.MarshalIndent(idArr, "", " ")
+
+	_ = ioutil.WriteFile(targetDirectory + "/targetIDs.json", file, 0644)
+
+	fmt.Println("Finished")
+}
 
 type xmlRespObj struct {
-	Response ebay.GetItemResponse
+	Response utils.GetItemResponse
+	Error    error
+}
+type jsonVarRespObj struct {
+	Response utils.GetItemGroupResponse
 	Error    error
 }
 
@@ -72,7 +88,7 @@ func (sc *SiteClient) readDir(targetDir string) <-chan *xmlRespObj {
 	xmlFiles, err := ioutil.ReadDir(targetDir)
 	if err != nil {
 		out <- &xmlRespObj{
-			Response: ebay.GetItemResponse{},
+			Response: utils.GetItemResponse{},
 			Error:    err,
 		}
 		return out
@@ -82,7 +98,7 @@ func (sc *SiteClient) readDir(targetDir string) <-chan *xmlRespObj {
 		wg.Add(1)
 		if xmlFile.Mode().IsRegular() {
 			go func(targetDir string, xmlFile string) {
-				var result ebay.GetItemResponse
+				var result utils.GetItemResponse
 				defer wg.Done()
 
 				xmlFileByteReader, err := os.Open(fmt.Sprintf("%v/%v", targetDir, xmlFile))
@@ -110,6 +126,61 @@ func (sc *SiteClient) readDir(targetDir string) <-chan *xmlRespObj {
 					Error:    err,
 				}
 			}(targetDir, xmlFile.Name())
+		}
+	}
+
+	go func() {
+		wg.Wait()
+		close(out)
+	}()
+
+	return out
+}
+func (sc *SiteClient) ReadVarDir(targetDir string) <-chan *jsonVarRespObj {
+	var wg sync.WaitGroup
+	out := make(chan *jsonVarRespObj)
+
+	jsonFiles, err := ioutil.ReadDir(targetDir)
+	if err != nil {
+		out <- &jsonVarRespObj{
+			Response: utils.GetItemGroupResponse{},
+			Error:    err,
+		}
+		return out
+	}
+
+	for _, jsonFile := range jsonFiles {
+		wg.Add(1)
+		if jsonFile.Mode().IsRegular() {
+			go func(targetDir string, jsonFile string) {
+				var result utils.GetItemGroupResponse
+				defer wg.Done()
+
+				jsonFileByteReader, err := os.Open(fmt.Sprintf("%v/%v", targetDir, jsonFile))
+				if err != nil {
+					out <- &jsonVarRespObj{
+						Response: result,
+						Error:    err,
+					}
+					return
+				}
+				defer jsonFileByteReader.Close()
+
+				byteValue, err := ioutil.ReadAll(jsonFileByteReader)
+				if err != nil {
+					out <- &jsonVarRespObj{
+						Response: result,
+						Error:    err,
+					}
+					return
+				}
+
+				err = json.Unmarshal(byteValue, &result)
+				out <- &jsonVarRespObj{
+					Response: result,
+					Error:    err,
+				}
+			}(targetDir, jsonFile.Name())
 		}
 	}
 
@@ -152,6 +223,30 @@ func (sc *SiteClient) fetchImageURLS(in <-chan *xmlRespObj) <-chan *utils.ImageD
 
 	return out
 }
+func (sc *SiteClient) fetchItemIDs(in <-chan *xmlRespObj) <-chan *string {
+	var wg sync.WaitGroup
+	out := make(chan *string)
+
+	for xmlResp := range in {
+		wg.Add(1)
+		go func(xmlResp *xmlRespObj) {
+			defer wg.Done()
+			if xmlResp.Error != nil || xmlResp.Response.Ack == "Failure" {
+				panic("error reading response file")
+				return
+			}
+			out <- &xmlResp.Response.Item.ItemID
+
+		}(xmlResp)
+	}
+
+	go func() {
+		wg.Wait()
+		close(out)
+	}()
+
+	return out
+}
 
 type nameNbytes struct {
 	PhotoName string
@@ -177,8 +272,8 @@ func (sc *SiteClient) fetchImgResponses(in <-chan *utils.ImageDownloadInfo) <-ch
 	}
 
 	var netClient = &fasthttp.Client{
-		MaxConnDuration:               time.Second * 30,
-		MaxConnWaitTimeout:            time.Second * 60,
+		MaxConnDuration:    time.Second * 30,
+		MaxConnWaitTimeout: time.Second * 60,
 		Dial: func(addr string) (net.Conn, error) {
 			return fasthttp.DialTimeout(addr, time.Second)
 		},

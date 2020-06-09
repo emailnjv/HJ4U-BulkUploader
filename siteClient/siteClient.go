@@ -15,11 +15,12 @@ const (
 )
 
 type SiteClient struct {
-	DBClient     db.TargetDBClient
-	EbayClient   ebay.EbayClient
-	ImageHandler utils.ImageHandler
-	SCPClient    utils.SCPClient
-	HTMLParser   utils.HTMLParser
+	DBClient       db.TargetDBClient
+	EbayClient     ebay.EbayClient
+	ImageHandler   utils.ImageHandler
+	SCPClient      utils.SCPClient
+	HTMLParser     utils.HTMLParser
+	VarianceParser utils.VarianceParser
 }
 
 func NewSiteClient() (SiteClient, error) {
@@ -47,6 +48,7 @@ func NewSiteClient() (SiteClient, error) {
 	result.ImageHandler = imageHandler
 	// result.SCPClient = scpClient
 	result.HTMLParser = utils.HTMLParser{}
+	result.VarianceParser = utils.VarianceParser{}
 
 	return result, err
 }
@@ -61,7 +63,7 @@ func NewSiteClient() (SiteClient, error) {
 //
 // 	product.Description = formattedDescription
 //
-// 	productID, err := sc.DBClient.InsertProduct(&product)
+// 	productID, err := sc.DBClient.InsertProduct(&Products)
 // 	if err != nil {
 // 		return fmt.Errorf("error inserting product %v; err = %v", csvData.ItemID, err)
 // 	}

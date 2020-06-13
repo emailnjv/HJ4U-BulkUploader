@@ -8,40 +8,53 @@ import (
 	"github.com/emailnjv/HJ4U-BulkUploader/siteClient"
 )
 
-	var categories = map[string]bool{
-		"Beads":                          true,
-		"Ceramic, Clay, Porcelain":       true,
-		"Art Posters Done":               true,
-		"Art Prints":                     true,
-		"Collections, Lots":              true,
-		"Connectors":                     true,
-		"Bead Caps":                      true,
-		"Chains":                         true,
-		"Clasps & Hooks":                 true,
-		"Chains, Necklaces & Pendants":   true,
-		"Charms & Pendants":              true,
-		"Bracelets":                      true,
-		"Cabochons":                      true,
-		"Carved Figures":                 true,
-		"Denby/Langley/Lovatts":          true,
-		"Earring Findings":               true,
-		"Earrings":                       true,
-		"Frames":                         true,
-		"Franciscan":                     true,
-		"Jewelry Clasps & Hooks":         true,
-		"Jewelry Making Chains":          true,
-		"Metals":                         true,
-		"Eggs":                           true,
-		"Other Craft Jewelry Findings":   true,
-		"Other Fine Necklaces, Pendants": true,
-		"Other Jewelry Design Findings":  true,
-		"Other Loose Gemstones":          true,
-		"Other Sapphires":                true,
-		"Owls":                           true,
-		"Rhinestones":                    true,
-		"Stone":                          true,
-		"Trinket Boxes":                  true,
-	}
+var categories = map[string]bool{
+	"Beads":                          true,
+	"Ceramic, Clay, Porcelain":       true,
+	"Art Posters Done":               true,
+	"Art Prints":                     true,
+	"Collections, Lots":              true,
+	"Connectors":                     true,
+	"Bead Caps":                      true,
+	"Chains":                         true,
+	"Clasps & Hooks":                 true,
+	"Chains, Necklaces & Pendants":   true,
+	"Charms & Pendants":              true,
+	"Bracelets":                      true,
+	"Cabochons":                      true,
+	"Carved Figures":                 true,
+	"Denby/Langley/Lovatts":          true,
+	"Earring Findings":               true,
+	"Earrings":                       true,
+	"Frames":                         true,
+	"Franciscan":                     true,
+	"Jewelry Clasps & Hooks":         true,
+	"Jewelry Making Chains":          true,
+	"Metals":                         true,
+	"Eggs":                           true,
+	"Other Craft Jewelry Findings":   true,
+	"Other Fine Necklaces, Pendants": true,
+	"Other Jewelry Design Findings":  true,
+	"Other Loose Gemstones":          true,
+	"Other Sapphires":                true,
+	"Owls":                           true,
+	"Rhinestones":                    true,
+	"Stone":                          true,
+	"Trinket Boxes":                  true,
+	"Single Flatware Pieces":         true,
+	"Buttons":                        true,
+	"Other China & Dinnerware":       true,
+	"Other French Art Glass":         true,
+	"Jewelry Boxes":                  true,
+	"Movements":                      true,
+	"Wristwatch Bands":               true,
+	"Salt & Pepper Shakers":          true,
+	"Jewelry Sets":                   true,
+	"Brooches, Pins":                 true,
+	"Pins, Brooches":                 true,
+	"Pin Backs & Brooch Components":  true,
+	"Spacer Beads & Stoppers":        true,
+}
 
 func init() {
 }
@@ -63,7 +76,7 @@ func uploadLocalListings() error {
 	}
 	categoryMapping := sampleMapping()
 
-	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/responses","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/varianceResponses", categoryMapping)
+	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/responses2","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/varianceResponses2", categoryMapping)
 }
 
 
@@ -352,6 +365,58 @@ func sampleMapping() map[string]siteClient.CategoryStruct {
 	result["Trinket Boxes"] = siteClient.CategoryStruct{
 		MainCategory: 12,
 		SubCategory:  37,
+	}
+	result["Single Flatware Pieces"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  33,
+	}
+	result["Buttons"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  39,
+	}
+	result["Other China & Dinnerware"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  31,
+	}
+	result["Other French Art Glass"] = siteClient.CategoryStruct{
+		MainCategory: 11,
+		SubCategory:  28,
+	}
+	result["Jewelry Boxes"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  37,
+	}
+	result["Movements"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  40,
+	}
+	result["Wristwatch Bands"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  40,
+	}
+	result["Salt & Pepper Shakers"] = siteClient.CategoryStruct{
+		MainCategory: 12,
+		SubCategory:  41,
+	}
+	result["Jewelry Sets"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  42,
+	}
+	result["Brooches, Pins"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  43,
+	}
+	result["Pins, Brooches"] = siteClient.CategoryStruct{
+		MainCategory: 13,
+		SubCategory:  43,
+	}
+	result["Pin Backs & Brooch Components"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  44,
+	}
+	result["Spacer Beads & Stoppers"] = siteClient.CategoryStruct{
+		MainCategory: 14,
+		SubCategory:  16,
 	}
 
 	return result

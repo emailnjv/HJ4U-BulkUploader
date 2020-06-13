@@ -171,22 +171,22 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 
 	if len(missingPhotoIDArr) > 0 {
 		file, _ := json.MarshalIndent(missingPhotoIDArr, "", " ")
-		_ = ioutil.WriteFile("missingPhotoIDs.json", file, 0644)
+		_ = ioutil.WriteFile("resources/missingPhotoIDs.json", file, 0644)
 	}
 
 	if len(extraPhotoIDArr) > 0 {
 		file, _ := json.MarshalIndent(extraPhotoIDArr, "", " ")
-		_ = ioutil.WriteFile("extraPhotoIDs.json", file, 0644)
+		_ = ioutil.WriteFile("resources/extraPhotoIDs.json", file, 0644)
 	}
 
 	if len(emptyProductAttributeArr) > 0 {
 		file, _ := json.MarshalIndent(emptyProductAttributeArr, "", " ")
-		_ = ioutil.WriteFile("emptyProductAttributeIDs.json", file, 0644)
+		_ = ioutil.WriteFile("resources/emptyProductAttributeIDs.json", file, 0644)
 	}
 
 	if len(missingXMLIDArr) > 0 {
 		file2, _ := json.MarshalIndent(missingXMLIDArr, "", " ")
-		_ = ioutil.WriteFile("missingXMLIDs.json", file2, 0644)
+		_ = ioutil.WriteFile("resources/missingXMLIDs.json", file2, 0644)
 	}
 
 	return nil

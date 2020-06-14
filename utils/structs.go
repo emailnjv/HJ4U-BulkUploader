@@ -16,7 +16,6 @@ type GetItemRequest struct {
 	DetailLevel   string   `xml:"DetailLevel"`
 	ItemID        string   `xml:"ItemID"`
 }
-
 type GetItemResponse struct {
 	XMLName   xml.Name `xml:"GetItemResponse"`
 	Text      string   `xml:",chardata"`
@@ -324,6 +323,52 @@ type GetItemResponse struct {
 		IsSecureDescription string `xml:"IsSecureDescription"`
 	} `xml:"Item"`
 }
+
+type GetStoreRequest struct {
+	XMLName               xml.Name `xml:"GetStoreRequest"`
+	Text                  string   `xml:",chardata"`
+	Xmlns                 string   `xml:"xmlns,attr"`
+	ErrorLanguage         string   `xml:"ErrorLanguage"`
+	WarningLevel          string   `xml:"WarningLevel"`
+	CategoryStructureOnly string   `xml:"CategoryStructureOnly"`
+}
+type GetStoreResponse struct {
+	XMLName   xml.Name `xml:"GetStoreResponse"`
+	Text      string   `xml:",chardata"`
+	Xmlns     string   `xml:"xmlns,attr"`
+	Timestamp string   `xml:"Timestamp"`
+	Ack       string   `xml:"Ack"`
+	Version   string   `xml:"Version"`
+	Build     string   `xml:"Build"`
+	Store     struct {
+		Text              string `xml:",chardata"`
+		Name              string `xml:"Name"`
+		SubscriptionLevel string `xml:"SubscriptionLevel"`
+		Description       string `xml:"Description"`
+		CustomCategories  struct {
+			Text           string `xml:",chardata"`
+			CustomCategory []struct {
+				Text          string `xml:",chardata"`
+				CategoryID    int `xml:"CategoryID"`
+				Name          string `xml:"Name"`
+				Order         string `xml:"Order"`
+				ChildCategory []struct {
+					Text          string `xml:",chardata"`
+					CategoryID    string `xml:"CategoryID"`
+					Name          string `xml:"Name"`
+					Order         string `xml:"Order"`
+					ChildCategory []struct {
+						Text       string `xml:",chardata"`
+						CategoryID string `xml:"CategoryID"`
+						Name       string `xml:"Name"`
+						Order      string `xml:"Order"`
+					} `xml:"ChildCategory"`
+				} `xml:"ChildCategory"`
+			} `xml:"CustomCategory"`
+		} `xml:"CustomCategories"`
+	} `xml:"Store"`
+}
+
 
 func (itemResp *GetItemResponse) ToFile(wg *sync.WaitGroup, fileDirectory string) error {
 	defer wg.Done()

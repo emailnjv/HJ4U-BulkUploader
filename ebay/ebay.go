@@ -1,6 +1,7 @@
 package ebay
 
 import (
+	"fmt"
 	"net"
 	"os"
 	"time"
@@ -13,13 +14,13 @@ import (
 )
 
 type EbayClient struct {
-	Client   *fasthttp.Client
-	oAuthKey string
+	Client           *fasthttp.Client
+	oAuthKey         string
+	StoreCategoryMap map[int]string
 }
 
 // NewEbayClient instantiates, and returns a new Ebay client
 func NewEbayClient() (EbayClient, error) {
-	var result EbayClient
 	err := godotenv.Load("../.env")
 	if err != nil {
 		err = godotenv.Load(".env")
@@ -28,9 +29,9 @@ func NewEbayClient() (EbayClient, error) {
 		}
 	}
 
-	result.oAuthKey = os.Getenv("EBAY_OAUTH_TOKEN")
-	if result.oAuthKey != "" {
-		return result, err
+	oAuthKey := os.Getenv("EBAY_OAUTH_TOKEN")
+	if oAuthKey == "" {
+		return EbayClient{}, fmt.Errorf("no OAuth key found")
 	}
 
 	client := fasthttp.Client{
@@ -41,7 +42,16 @@ func NewEbayClient() (EbayClient, error) {
 		MaxConnsPerHost: 50000,
 	}
 
-	result.Client = &client
+	result := EbayClient{
+		Client:           &client,
+		oAuthKey:         oAuthKey,
+		StoreCategoryMap: make(map[int]string),
+	}
+
+	err = result.loadStoreCategories()
+	if err != nil {
+		return EbayClient{}, err
+	}
 
 	return result, err
 }

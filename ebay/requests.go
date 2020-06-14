@@ -70,6 +70,58 @@ func (ec *EbayClient) GetItem(itemID string) (utils.GetItemResponse, error) {
 	return result, err
 }
 
+func (ec *EbayClient) GetStore() (utils.GetStoreResponse, error) {
+	var result utils.GetStoreResponse
+	var resp fasthttp.Response
+
+	// Get Route
+	route := ec.tradingAPIRouteBuilder()
+
+	// Create request body
+		XMLBody := utils.GetStoreRequest{
+		XMLName:       xml.Name{},
+		Text:          "utf-8",
+		Xmlns:         "urn:ebay:apis:eBLBaseComponents",
+		ErrorLanguage: "en_US",
+		WarningLevel:  "High",
+		CategoryStructureOnly: "true",
+	}
+
+	// Marshall body into byte array
+	out, _ := xml.Marshal(&XMLBody)
+
+	req := fasthttp.AcquireRequest()
+
+	// Create request
+	req.SetBodyString(xml.Header + string(out))
+	req.Header.SetRequestURI(route)
+	req.Header.SetMethod("POST")
+
+	// Attach Request Headers
+	req.Header.Add("X-EBAY-API-SITEID", "0")
+	req.Header.Add("X-EBAY-API-COMPATIBILITY-LEVEL", "967")
+	req.Header.Add("X-EBAY-API-CALL-NAME", "GetStore")
+	req.Header.Add("Content-Type", "text/xml")
+	req.Header.Add("X-EBAY-API-IAF-TOKEN", ec.oAuthKey)
+
+	// Fire off request
+	err := ec.Client.Do(req, &resp)
+	if err != nil {
+		return result, err
+	}
+
+	// Unmarshall body into GetStoreResponse
+	if err := xml.Unmarshal(resp.Body(), &result); err != nil {
+		return result, err
+	}
+
+	if result.Ack == "Failure" {
+		return result, fmt.Errorf("ebay connection failed, check OAuth Key")
+	}
+
+	return result, err
+}
+
 type byteErrObj struct {
 	Body  []byte
 	Error *error

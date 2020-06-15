@@ -9,14 +9,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// TargetDBClient is a instance of the database client
-type TargetDBClient struct {
+// DBClient is a instance of the database client
+type DBClient struct {
 	db *gorm.DB
 }
 
 // NewDBClient returns a new instance of a database client
-func NewTargetDBClient() (TargetDBClient, error) {
-	var result TargetDBClient
+func NewTargetDBClient() (DBClient, error) {
+	var result DBClient
 
 	// Load ENVs
 	err := godotenv.Load("../.env")
@@ -44,23 +44,22 @@ func NewTargetDBClient() (TargetDBClient, error) {
 
 	result.db.SingularTable(true)
 
-
 	// Migrate the schema
 	result.db.AutoMigrate(&Products{})
 	result.db.AutoMigrate(&Media{})
 	result.db.AutoMigrate(&ProductAtt{})
 
-	// Enable Logger, show detailed log
-	// result.db.LogMode(true)
-
 	result.db.DB().SetMaxIdleConns(0)
 	result.db.DB().SetConnMaxLifetime(1 * time.Second)
+
+	// Enable Logger, show detailed log
+	result.db.LogMode(true)
 
 	return result, err
 }
 
 // CloseConnection closes the client's connection
 // It returns an error if one occurred
-func (d *TargetDBClient) CloseConnection() error {
-	return d.db.Close()
+func (dbc *DBClient) CloseConnection() error {
+	return dbc.db.Close()
 }

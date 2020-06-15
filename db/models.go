@@ -39,3 +39,13 @@ type Media struct {
 	Author        int        `gorm:"type:int(11)`
 	OrderID       int        `gorm:"column:order_id;type:int(11)`
 }
+
+type SubCategories struct {
+	ID            int        `gorm:"column:id;type:int(11);AUTO_INCREMENT;PRIMARY_KEY`
+	MainCatID     int        `gorm:"column:main_cat_id;type:varchar(255)`
+	Name          string     `gorm:"column:name;type:varchar(255)`
+}
+
+type levenshteinRatioResult struct {
+	levenshteinRatio  int
+}

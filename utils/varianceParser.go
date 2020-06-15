@@ -26,7 +26,7 @@ func (vp *VarianceParser) HandleVariances(productID int, varianceResponse []GIGR
 		return result, err
 	}
 
-	// Iterate over unique aspects generating ready to insert DB product attribute structs
+	// Iterate over unique aspects generating ready to insert db product attribute structs
 	for itemIndex, uniqueAspect := range uniqueAspects {
 
 		// Get the price

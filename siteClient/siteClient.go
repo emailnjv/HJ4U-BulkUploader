@@ -15,7 +15,7 @@ const (
 )
 
 type SiteClient struct {
-	DBClient       db.TargetDBClient
+	DBClient       db.DBClient
 	EbayClient     ebay.EbayClient
 	ImageHandler   utils.ImageHandler
 	SCPClient      utils.SCPClient

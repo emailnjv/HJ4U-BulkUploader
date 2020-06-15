@@ -34,7 +34,7 @@ func (ec *EbayClient) ReturnCategories(getItemResponse utils.GetItemResponse) (s
 	mainCategoryStarterString := html.UnescapeString(getItemResponse.Item.PrimaryCategory.CategoryName)
 	ampSplit := strings.Split(mainCategoryStarterString, "&")
 	specificCategorySplit := strings.Split(strings.TrimSpace(ampSplit[len(ampSplit)-1]), ":")
-	mainCategoryString := specificCategorySplit[len(specificCategorySplit)-1]
+	mainCategoryString := specificCategorySplit[0]
 
 	storeCategoryID, err := strconv.Atoi(getItemResponse.Item.Storefront.StoreCategoryID)
 	if err != nil {

@@ -88,7 +88,6 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 	for index, line := range lines {
 		// If first line of CSV or listingMap[line[0]] != nil
 		if index != 0 || listingMap[line[0]] != nil {
-			// Notice: Category Mapping used here
 			// Check to see if in category mapping
 			categoryStruct, ok := categoryMapping[line[14]]
 			// if found
@@ -123,7 +122,6 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 				listing, ok := listingMap[csvLine.ItemID]
 				if ok {
 
-					// Notice: Category Mapping used here
 					// Get the ready to go product struct
 					product, err := sc.getProductObjects(categoryStruct, listing.XML, csvLine)
 					if err != nil {
@@ -383,7 +381,6 @@ func (sc *SiteClient) UploadSpecificLocalListings(listingDirectory string, image
 	return nil
 }
 
-// Notice: Category Mapping used here
 func (sc *SiteClient) getProductObjects(categoryStruct db.CategoryIDStruct, xmlStruct utils.GetItemResponse, line utils.CSVLine) (db.Products, error) {
 	var result db.Products
 

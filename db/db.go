@@ -53,7 +53,7 @@ func NewTargetDBClient() (DBClient, error) {
 	result.db.DB().SetConnMaxLifetime(1 * time.Second)
 
 	// Enable Logger, show detailed log
-	result.db.LogMode(true)
+	// result.db.LogMode(true)
 
 	return result, err
 }

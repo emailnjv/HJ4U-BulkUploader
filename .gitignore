@@ -26,5 +26,5 @@ vendor/
 *.ppk
 output.txt
 
-/resources/data/
-/resources/listings.csv
+/resources/
+!/resources/debugData

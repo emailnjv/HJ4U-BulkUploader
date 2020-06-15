@@ -53,34 +53,6 @@ func NewSiteClient() (SiteClient, error) {
 	return result, err
 }
 
-// func (sc *SiteClient) InsertListing(catID int, subCatID int, csvData utils.CSVLine) error {
-// 	product, urlArr, err := sc.EbayClient.GetProductInfo(catID, subCatID, csvData)
-//
-// 	formattedDescription, err := sc.HTMLParser.ParseHTML(product.Description)
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	product.Description = formattedDescription
-//
-// 	productID, err := sc.DBClient.InsertProduct(&Products)
-// 	if err != nil {
-// 		return fmt.Errorf("error inserting product %v; err = %v", csvData.ItemID, err)
-// 	}
-//
-// 	err = sc.handleImageURLs(productID, urlArr)
-// 	if err != nil {
-// 		return fmt.Errorf("error inserting product images for product %v; imageURLArr = %v; err = %v", csvData.ItemID, urlArr, err)
-// 	}
-//
-// 	return err
-// }
-
-// func (sc *SiteClient) CallInsertListing(chann chan error, catID int, subCatID int, csvData utils.CSVLine) {
-// 	err := sc.InsertListing(catID, subCatID, csvData)
-// 	chann <- err
-// }
-
 func (sc *SiteClient) handleImageURLs(productID int, imageURLs []string) error {
 
 	sort.Strings(imageURLs)

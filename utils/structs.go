@@ -347,28 +347,17 @@ type GetStoreResponse struct {
 		Description       string `xml:"Description"`
 		CustomCategories  struct {
 			Text           string `xml:",chardata"`
-			CustomCategory []struct {
-				Text          string `xml:",chardata"`
-				CategoryID    int `xml:"CategoryID"`
-				Name          string `xml:"Name"`
-				Order         string `xml:"Order"`
-				ChildCategory []struct {
-					Text          string `xml:",chardata"`
-					CategoryID    string `xml:"CategoryID"`
-					Name          string `xml:"Name"`
-					Order         string `xml:"Order"`
-					ChildCategory []struct {
-						Text       string `xml:",chardata"`
-						CategoryID string `xml:"CategoryID"`
-						Name       string `xml:"Name"`
-						Order      string `xml:"Order"`
-					} `xml:"ChildCategory"`
-				} `xml:"ChildCategory"`
-			} `xml:"CustomCategory"`
+			CustomCategory GSRCustomCategory
 		} `xml:"CustomCategories"`
 	} `xml:"Store"`
 }
-
+type GSRCustomCategory []struct {
+	Text          string `xml:",chardata"`
+	CategoryID    int    `xml:"CategoryID"`
+	Name          string `xml:"Name"`
+	Order         string `xml:"Order"`
+	ChildCategory GSRCustomCategory
+}
 
 func (itemResp *GetItemResponse) ToFile(wg *sync.WaitGroup, fileDirectory string) error {
 	defer wg.Done()

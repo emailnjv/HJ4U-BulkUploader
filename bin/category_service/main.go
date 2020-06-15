@@ -2,69 +2,71 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/emailnjv/HJ4U-BulkUploader/siteClient"
 )
 
 var categories = map[string]bool{
-	"Beads":                          true,
-	"Ceramic, Clay, Porcelain":       true,
-	"Art Posters Done":               true,
-	"Art Prints":                     true,
-	"Collections, Lots":              true,
-	"Connectors":                     true,
-	"Bead Caps":                      true,
-	"Chains":                         true,
-	"Clasps & Hooks":                 true,
-	"Chains, Necklaces & Pendants":   true,
-	"Charms & Pendants":              true,
-	"Bracelets":                      true,
-	"Cabochons":                      true,
-	"Carved Figures":                 true,
-	"Denby/Langley/Lovatts":          true,
-	"Earring Findings":               true,
-	"Earrings":                       true,
-	"Frames":                         true,
-	"Franciscan":                     true,
-	"Jewelry Clasps & Hooks":         true,
-	"Jewelry Making Chains":          true,
-	"Metals":                         true,
-	"Eggs":                           true,
-	"Other Craft Jewelry Findings":   true,
-	"Other Fine Necklaces, Pendants": true,
-	"Other Jewelry Design Findings":  true,
-	"Other Loose Gemstones":          true,
-	"Other Sapphires":                true,
-	"Owls":                           true,
-	"Rhinestones":                    true,
-	"Stone":                          true,
-	"Trinket Boxes":                  true,
-	"Single Flatware Pieces":         true,
-	"Buttons":                        true,
-	"Other China & Dinnerware":       true,
-	"Other French Art Glass":         true,
-	"Jewelry Boxes":                  true,
-	"Movements":                      true,
-	"Wristwatch Bands":               true,
-	"Salt & Pepper Shakers":          true,
-	"Jewelry Sets":                   true,
-	"Brooches, Pins":                 true,
-	"Pins, Brooches":                 true,
-	"Pin Backs & Brooch Components":  true,
-	"Spacer Beads & Stoppers":        true,
+	"Beads":                          false,
+	"Ceramic, Clay, Porcelain":       false,
+	"Art Posters Done":               false,
+	"Art Prints":                     false,
+	"Collections, Lots":              false,
+	"Connectors":                     false,
+	"Bead Caps":                      false,
+	"Chains":                         false,
+	"Clasps & Hooks":                 false,
+	"Chains, Necklaces & Pendants":   false,
+	"Charms & Pendants":              false,
+	"Bracelets":                      false,
+	"Cabochons":                      false,
+	"Carved Figures":                 false,
+	"Denby/Langley/Lovatts":          false,
+	"Earring Findings":               false,
+	"Earrings":                       false,
+	"Frames":                         false,
+	"Franciscan":                     false,
+	"Jewelry Clasps & Hooks":         false,
+	"Jewelry Making Chains":          false,
+	"Metals":                         false,
+	"Eggs":                           false,
+	"Other Craft Jewelry Findings":   false,
+	"Other Fine Necklaces, Pendants": false,
+	"Other Jewelry Design Findings":  false,
+	"Other Loose Gemstones":          false,
+	"Other Sapphires":                false,
+	"Owls":                           false,
+	"Rhinestones":                    false,
+	"Stone":                          false,
+	"Trinket Boxes":                  false,
+	"Single Flatware Pieces":         false,
+	"Buttons":                        false,
+	"Other China & Dinnerware":       false,
+	"Other French Art Glass":         false,
+	"Jewelry Boxes":                  false,
+	"Movements":                      false,
+	"Wristwatch Bands":               false,
+	"Salt & Pepper Shakers":          false,
+	"Jewelry Sets":                   false,
+	"Brooches, Pins":                 false,
+	"Pins, Brooches":                 false,
+	"Pin Backs & Brooch Components":  false,
+	"Spacer Beads & Stoppers":        false,
+	"Limoges":                        true,
 }
 
 func init() {
 }
 
 func main() {
-
-	// for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/resp") {
+	// for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/LimogesResponses") {
 	// 	fmt.Printf("Error returned from runGroupedRespDownload: %#v\n", err)
 	// }
-		fmt.Println(uploadLocalListings())
+	fmt.Println(uploadLocalListings())
 
 	fmt.Println("Finished")
 }
@@ -74,11 +76,10 @@ func uploadLocalListings() error {
 	if err != nil {
 		return err
 	}
-	categoryMapping := sampleMapping()
-
-	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/responses2","/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/varianceResponses2", categoryMapping)
+	// categoryMapping := sampleMapping()
+	// NOTICE: Pulls in the category mapping here
+	return sc.UploadSpecificLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesResponses", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesVarianceResponses", "Limoges")
 }
-
 
 func runGroupedRespDownload(categories map[string]bool, downloadDirectory string) <-chan *error {
 	var IDArr []string
@@ -93,34 +94,18 @@ func runGroupedRespDownload(categories map[string]bool, downloadDirectory string
 		panic(err)
 	}
 
-	// jsonFile, err := os.Open("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/siteClient/missingIDs.json")
-	// if we os.Open returns an error then handle it
-	// if err != nil {
-	// 	fmt.Printf("Error opening json file: %#v\n", err)
-	// }
-	// defer jsonFile.Close()
-
-	// read our opened jsonFile as a byte array.
-	// byteValue, _ := ioutil.ReadAll(jsonFile)
-
-	// we initialize our Users array
-	// var IDs []string
-
-	// we unmarshal our byteArray which contains our
-	// jsonFile's content into 'users' which we defined above
-	// err = json.Unmarshal(byteValue, &IDs)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
 	// Loop through lines & turn into object
 	for index, line := range lines {
 		if index != 0 {
-			if _, ok := categories[line[14]]; ok {
+			if useBool, ok := categories[line[14]]; ok && useBool {
 				IDArr = append(IDArr, line[0])
 			}
 		}
 	}
+
+	file, _ := json.MarshalIndent(IDArr, "", " ")
+
+	_ = ioutil.WriteFile("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/ebay_listings/targetIDs.json", file, 0644)
 
 	return sc.EbayClient.DownloadAllResponses(IDArr, downloadDirectory)
 }
@@ -131,88 +116,6 @@ func exit(err error) {
 	}
 	os.Exit(1)
 }
-
-// func run(targetCategory string, catID int, subCatID int) error {
-// 	var csvLineArr []utils.CSVLine
-//
-// 	lines, err := ReadCsv("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/listings_mod.csv")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-//
-// 	sc, err := siteClient.NewSiteClient()
-// 	if err != nil {
-// 		return err
-// 	}
-//
-// 	// Loop through lines & turn into object
-// 	for index, line := range lines {
-// 		if index != 0 {
-// 			data := utils.CSVLine{
-// 				ItemID:             line[0],
-// 				CustomLabel:        line[1],
-// 				ProductIDType:      line[2],
-// 				ProductIDValue:     line[3],
-// 				ProductIDValue2:    line[4],
-// 				QuantityAvailable:  line[5],
-// 				Purchases:          line[6],
-// 				Bids:               line[7],
-// 				Price:              line[8],
-// 				StartDate:          line[9],
-// 				EndDate:            line[10],
-// 				Condition:          line[11],
-// 				Type:               line[12],
-// 				ItemTitle:          line[13],
-// 				CategoryLeafName:   line[14],
-// 				CategoryNumber:     line[15],
-// 				PrivateNotes:       line[16],
-// 				SiteListed:         line[17],
-// 				DownloadDate:       line[18],
-// 				VariationDetails:   line[19],
-// 				ProductReferenceID: line[20],
-// 				ConditionID:        line[21],
-// 				OutOfStockControl:  line[22],
-// 			}
-// 			if data.CategoryLeafName == targetCategory {
-// 				csvLineArr = append(csvLineArr, data)
-// 			}
-//
-// 		}
-// 	}
-//
-// 	errChan := make(chan error)
-// 	var csvWg sync.WaitGroup
-//
-// 	csvWg.Add(len(csvLineArr))
-// 	for _, csvLine := range csvLineArr {
-// 		time.Sleep(2 * time.Second)
-// 		go func(catID int, subCatID int, csvLine utils.CSVLine) {
-//
-// 			err := sc.InsertListing(catID, subCatID, csvLine)
-// 			// if err != nil {
-// 			// 	return err
-// 			// }
-// 			defer csvWg.Done()
-//
-// 			errChan <- err
-// 		}(catID, subCatID, csvLine)
-// 	}
-// 	// defer sc.CloseSiteClient()
-//
-// 	go func() {
-// 		csvWg.Wait()
-// 		close(errChan)
-// 		sc.CloseSiteClient()
-// 	}()
-//
-// 	for errResult := range errChan {
-// 		if errResult != nil {
-// 			return errResult
-// 		}
-// 	}
-//
-// 	return nil
-// }
 
 func ReadCsv(filename string) ([][]string, error) {
 
@@ -230,10 +133,6 @@ func ReadCsv(filename string) ([][]string, error) {
 	}
 
 	return lines, nil
-}
-
-func printUsage(itemID string) {
-	fmt.Println("Inserting Product ID %v", itemID)
 }
 
 func sampleMapping() map[string]siteClient.CategoryStruct {

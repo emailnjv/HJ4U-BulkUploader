@@ -210,3 +210,95 @@ func TestDBClient_MainCatsSubCats(t *testing.T) {
 		})
 	}
 }
+
+func TestDBClient_LevenshteinMatch(t *testing.T) {
+
+	type args struct {
+		input        string
+		categoryName string
+		targetMatch  int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    CategoryIDStruct
+		wantErr bool
+	}{
+		{
+			name: "LevenshteinMatch",
+			args: args{
+				input:        "Cabachon",
+				categoryName: "Jewelry Supplies",
+				targetMatch:  80,
+			},
+			want: CategoryIDStruct{
+				MainCategoryID: 14,
+				SubCategoryID:  24,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			dbc, err := NewTargetDBClient()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewTargetDBClient() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			got, err := dbc.LevenshteinMatch(tt.args.input, tt.args.categoryName, tt.args.targetMatch)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("LevenshteinMatch() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("LevenshteinMatch() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestDBClient_SQLMatchMatch(t *testing.T) {
+
+	type args struct {
+		input          string
+		targetCategory string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []CategoryIDStruct
+		wantErr bool
+	}{
+		{
+			name: "SQLMatchMatch",
+			args: args{
+				input:          "pots",
+				targetCategory: "Fine Porcelain",
+			},
+			want:    []CategoryIDStruct{
+				{
+					MainCategoryID: 12,
+					SubCategoryID:  30,
+				},
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			dbc, err := NewTargetDBClient()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NewTargetDBClient() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			got, err := dbc.SQLMatchMatch(tt.args.input, tt.args.targetCategory)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("SQLMatchMatch() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SQLMatchMatch() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

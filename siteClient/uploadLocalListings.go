@@ -18,12 +18,7 @@ type listing struct {
 	Images []string
 }
 
-type CategoryStruct struct {
-	MainCategory int
-	SubCategory  int
-}
-
-func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirectory string, varianceDirectory string, categoryMapping map[string]CategoryStruct) error {
+func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirectory string, varianceDirectory string, categoryMapping map[string]db.CategoryIDStruct) error {
 	listingMap := make(map[string]*listing)
 	var missingXMLIDArr []string
 	var missingPhotoIDArr []string
@@ -51,7 +46,7 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 		} else {
 			if len(jsonErrStruct.Response.Items) > 0 {
 				// Create entries in listing mapping
-				listingMap[jsonErrStruct.Response.Items[0].LegacyItemID].VarXML =  jsonErrStruct.Response
+				listingMap[jsonErrStruct.Response.Items[0].LegacyItemID].VarXML = jsonErrStruct.Response
 			}
 		}
 	}
@@ -89,10 +84,11 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 		panic(err)
 	}
 
-	// Loop through lines & parse listings into DB
+	// Loop through lines & parse listings into db
 	for index, line := range lines {
 		// If first line of CSV or listingMap[line[0]] != nil
 		if index != 0 || listingMap[line[0]] != nil {
+			// Notice: Category Mapping used here
 			// Check to see if in category mapping
 			categoryStruct, ok := categoryMapping[line[14]]
 			// if found
@@ -127,6 +123,7 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 				listing, ok := listingMap[csvLine.ItemID]
 				if ok {
 
+					// Notice: Category Mapping used here
 					// Get the ready to go product struct
 					product, err := sc.getProductObjects(categoryStruct, listing.XML, csvLine)
 					if err != nil {
@@ -191,12 +188,207 @@ func (sc *SiteClient) UploadLocalListings(listingDirectory string, imageDirector
 
 	return nil
 }
+func (sc *SiteClient) UploadSpecificLocalListings(listingDirectory string, imageDirectory string, varianceDirectory string, targetCategory string, targetCSVCategory string) error {
+	listingMap := make(map[string]*listing)
+	var missingXMLIDArr []string
+	var missingPhotoIDArr []string
+	var extraPhotoIDArr []string
+	var emptyProductAttributeArr []string
+	var missingCategoriesArr []string
 
-func (sc *SiteClient) getProductObjects(categoryStruct CategoryStruct, xmlStruct utils.GetItemResponse, line utils.CSVLine) (db.Products, error) {
+	// map xml responses to images
+	for xmlErrStruct := range sc.readDir(listingDirectory) {
+		if xmlErrStruct.Error != nil {
+			return xmlErrStruct.Error
+		} else {
+			// Create entries in listing mapping
+			listingMap[xmlErrStruct.Response.Item.ItemID] = &listing{
+				XML:    xmlErrStruct.Response,
+				VarXML: utils.GetItemGroupResponse{},
+				Images: []string{},
+			}
+		}
+	}
+
+	// map xml variance responses to listings
+	for jsonErrStruct := range sc.ReadVarDir(varianceDirectory) {
+		if jsonErrStruct.Error != nil {
+			continue
+		} else {
+			if len(jsonErrStruct.Response.Items) > 0 {
+				// Create entries in listing mapping
+				listingMap[jsonErrStruct.Response.Items[0].LegacyItemID].VarXML = jsonErrStruct.Response
+			}
+		}
+	}
+
+	// Read image directory
+	imageDirectoryContents, err := ioutil.ReadDir(imageDirectory)
+	if err != nil {
+		return err
+	}
+
+	// Iterate over images and insert name into string array
+	for _, item := range imageDirectoryContents {
+
+		// Get Name
+		photoName := item.Name()
+
+		// Check for regular file
+		if item.Mode().IsRegular() && photoName[0] != '.' {
+
+			// Split ID from name
+			itemSplitOne := strings.Split(photoName, "_")
+			itemID := itemSplitOne[0]
+
+			// Check to see if image name exists
+			listing, ok := listingMap[itemID]
+			if ok {
+				// Insert Image name
+				listing.Images = append(listing.Images, photoName)
+			}
+		}
+	}
+
+	lines, err := ReadCsv("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/listings.csv")
+	if err != nil {
+		panic(err)
+	}
+
+	// Loop through lines & parse listings into db
+	for index, line := range lines {
+		// If first line of CSV or listingMap[line[0]] != nil
+		if index != 0 || listingMap[line[0]] != nil {
+
+			// if found
+			if targetCSVCategory == line[14] {
+				csvLine := utils.CSVLine{
+					ItemID:             line[0],
+					CustomLabel:        line[1],
+					ProductIDType:      line[2],
+					ProductIDValue:     line[3],
+					ProductIDValue2:    line[4],
+					QuantityAvailable:  line[5],
+					Purchases:          line[6],
+					Bids:               line[7],
+					Price:              line[8],
+					StartDate:          line[9],
+					EndDate:            line[10],
+					Condition:          line[11],
+					Type:               line[12],
+					ItemTitle:          line[13],
+					CategoryLeafName:   line[14],
+					CategoryNumber:     line[15],
+					PrivateNotes:       line[16],
+					SiteListed:         line[17],
+					DownloadDate:       line[18],
+					VariationDetails:   line[19],
+					ProductReferenceID: line[20],
+					ConditionID:        line[21],
+					OutOfStockControl:  line[22],
+				}
+
+				// check if item id for image is in listing map
+				listing, ok := listingMap[csvLine.ItemID]
+				if ok {
+					var categoryStruct db.CategoryIDStruct
+					ebayCategoryName, storeCategoryName, err := sc.EbayClient.ReturnCategories(listing.XML)
+					if err != nil {
+						panic(err)
+					}
+
+					categoryStruct, err = sc.DBClient.AttemptCategoryMatch(storeCategoryName, targetCategory, 70)
+					if err != nil {
+						panic(err)
+					}
+
+					if categoryStruct.SubCategoryID == 0 {
+						categoryStruct, err = sc.DBClient.AttemptCategoryMatch(ebayCategoryName, targetCategory, 70)
+						if err != nil {
+							panic(err)
+						}
+
+						if categoryStruct.SubCategoryID == 0 {
+							missingCategoriesArr = append(missingCategoriesArr, listing.XML.Item.ItemID)
+							continue
+						}
+					}
+
+					// Get the ready to go product struct
+					product, err := sc.getProductObjects(categoryStruct, listing.XML, csvLine)
+					if err != nil {
+						return err
+					}
+
+					// Insert product
+					id, err := sc.DBClient.InsertProduct(&product)
+					if err != nil {
+						return err
+					}
+
+					if len(listingMap[csvLine.ItemID].VarXML.Items) > 0 {
+						productAttributes, err := sc.VarianceParser.HandleVariances(id, listingMap[csvLine.ItemID].VarXML.Items)
+						if err != nil {
+							panic(fmt.Errorf("Error parsing variances\nItem ID: %v\nErr: %#v", csvLine.ItemID, err))
+						}
+						if len(productAttributes) > 0 {
+							err = sc.DBClient.GroupInsertProductAtt(productAttributes)
+						} else {
+							emptyProductAttributeArr = append(emptyProductAttributeArr, csvLine.ItemID)
+						}
+					}
+
+					// If images in array
+					if len(listing.Images) == 0 {
+						missingPhotoIDArr = append(missingPhotoIDArr, csvLine.ItemID)
+					} else {
+						err = sc.handleImageURLs(id, listing.Images)
+						if err != nil {
+							return err
+						}
+					}
+				} else {
+					extraPhotoIDArr = append(extraPhotoIDArr, line[0])
+				}
+			} else {
+				missingXMLIDArr = append(missingXMLIDArr, line[0])
+			}
+		}
+	}
+
+	if len(missingPhotoIDArr) > 0 {
+		file, _ := json.MarshalIndent(missingPhotoIDArr, "", " ")
+		_ = ioutil.WriteFile("resources/missingPhotoIDs.json", file, 0644)
+	}
+
+	if len(extraPhotoIDArr) > 0 {
+		file, _ := json.MarshalIndent(extraPhotoIDArr, "", " ")
+		_ = ioutil.WriteFile("resources/extraPhotoIDs.json", file, 0644)
+	}
+
+	if len(emptyProductAttributeArr) > 0 {
+		file, _ := json.MarshalIndent(emptyProductAttributeArr, "", " ")
+		_ = ioutil.WriteFile("resources/emptyProductAttributeIDs.json", file, 0644)
+	}
+
+	if len(missingXMLIDArr) > 0 {
+		file2, _ := json.MarshalIndent(missingXMLIDArr, "", " ")
+		_ = ioutil.WriteFile("resources/missingXMLIDs.json", file2, 0644)
+	}
+	if len(missingCategoriesArr) > 0 {
+		file2, _ := json.MarshalIndent(missingCategoriesArr, "", " ")
+		_ = ioutil.WriteFile("resources/missingCategoriesIDs.json", file2, 0644)
+	}
+
+	return nil
+}
+
+// Notice: Category Mapping used here
+func (sc *SiteClient) getProductObjects(categoryStruct db.CategoryIDStruct, xmlStruct utils.GetItemResponse, line utils.CSVLine) (db.Products, error) {
 	var result db.Products
 
 	// Get the product info
-	product, _, err := sc.EbayClient.ParseItem(categoryStruct.MainCategory, categoryStruct.SubCategory, line, xmlStruct)
+	product, _, err := sc.EbayClient.ParseItem(categoryStruct.MainCategoryID, categoryStruct.SubCategoryID, line, xmlStruct)
 	if err != nil {
 		return result, err
 	}

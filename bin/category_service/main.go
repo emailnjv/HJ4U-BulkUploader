@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/emailnjv/HJ4U-BulkUploader/db"
 	"github.com/emailnjv/HJ4U-BulkUploader/siteClient"
 )
 
@@ -66,7 +67,8 @@ func main() {
 	// for err := range runGroupedRespDownload(categories, "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/LimogesResponses") {
 	// 	fmt.Printf("Error returned from runGroupedRespDownload: %#v\n", err)
 	// }
-	fmt.Println(uploadLocalListings())
+	// fmt.Println(uploadLocalListings())
+	fmt.Println(uploadSpecificLocalListings("Fine Porcelain", "Limoges"))
 
 	fmt.Println("Finished")
 }
@@ -76,9 +78,18 @@ func uploadLocalListings() error {
 	if err != nil {
 		return err
 	}
+	categoryMapping := sampleMapping()
+	// NOTICE: Pulls in the category mapping here
+	return sc.UploadLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesResponses", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesVarianceResponses", categoryMapping)
+}
+func uploadSpecificLocalListings(targetCategory string, targetCSVCategory string) error {
+	sc, err := siteClient.NewSiteClient()
+	if err != nil {
+		return err
+	}
 	// categoryMapping := sampleMapping()
 	// NOTICE: Pulls in the category mapping here
-	return sc.UploadSpecificLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesResponses", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesVarianceResponses", "Limoges")
+	return sc.UploadSpecificLocalListings("/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesResponses", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/pictures", "/home/nick/Documents/Projects/Work/Dad/HotJewelry4U/BulkUploader/resources/data/limogesVarianceResponses", targetCategory, targetCSVCategory)
 }
 
 func runGroupedRespDownload(categories map[string]bool, downloadDirectory string) <-chan *error {
@@ -135,187 +146,187 @@ func ReadCsv(filename string) ([][]string, error) {
 	return lines, nil
 }
 
-func sampleMapping() map[string]siteClient.CategoryStruct {
-	result := make(map[string]siteClient.CategoryStruct)
-	result["Beads"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  16,
+func sampleMapping() map[string]db.CategoryIDStruct {
+	result := make(map[string]db.CategoryIDStruct)
+	result["Beads"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  16,
 	}
-	result["Ceramic, Clay, Porcelain"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  16,
+	result["Ceramic, Clay, Porcelain"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  16,
 	}
-	result["Art Posters Done"] = siteClient.CategoryStruct{
-		MainCategory: 11,
-		SubCategory:  26,
+	result["Art Posters Done"] = db.CategoryIDStruct{
+		MainCategoryID: 11,
+		SubCategoryID:  26,
 	}
-	result["Art Prints"] = siteClient.CategoryStruct{
-		MainCategory: 11,
-		SubCategory:  26,
+	result["Art Prints"] = db.CategoryIDStruct{
+		MainCategoryID: 11,
+		SubCategoryID:  26,
 	}
-	result["Collections, Lots"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Collections, Lots"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Connectors"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Connectors"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Bead Caps"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Bead Caps"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Chains"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  13,
+	result["Chains"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  13,
 	}
-	result["Clasps & Hooks"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Clasps & Hooks"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Chains, Necklaces & Pendants"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  21,
+	result["Chains, Necklaces & Pendants"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  21,
 	}
-	result["Charms & Pendants"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  18,
+	result["Charms & Pendants"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  18,
 	}
-	result["Bracelets"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  12,
+	result["Bracelets"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  12,
 	}
-	result["Cabochons"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  24,
+	result["Cabochons"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  24,
 	}
-	result["Carved Figures"] = siteClient.CategoryStruct{
-		MainCategory: 11,
-		SubCategory:  28,
+	result["Carved Figures"] = db.CategoryIDStruct{
+		MainCategoryID: 11,
+		SubCategoryID:  28,
 	}
-	result["Denby/Langley/Lovatts"] = siteClient.CategoryStruct{ // dinnerware
-		MainCategory: 12,
-		SubCategory:  33,
+	result["Denby/Langley/Lovatts"] = db.CategoryIDStruct{ // dinnerware
+		MainCategoryID: 12,
+		SubCategoryID:  33,
 	}
-	result["Earring Findings"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Earring Findings"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Earrings"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  14,
+	result["Earrings"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  14,
 	}
-	result["Frames"] = siteClient.CategoryStruct{
-		MainCategory: 11,
-		SubCategory:  27,
+	result["Frames"] = db.CategoryIDStruct{
+		MainCategoryID: 11,
+		SubCategoryID:  27,
 	}
-	result["Franciscan"] = siteClient.CategoryStruct{ // dinnerware
-		MainCategory: 12,
-		SubCategory:  12,
+	result["Franciscan"] = db.CategoryIDStruct{ // dinnerware
+		MainCategoryID: 12,
+		SubCategoryID:  12,
 	}
-	result["Jewelry Clasps & Hooks"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  21,
+	result["Jewelry Clasps & Hooks"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  21,
 	}
-	result["Jewelry Making Chains"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  21,
+	result["Jewelry Making Chains"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  21,
 	}
-	result["Metals"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  21,
+	result["Metals"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  21,
 	}
-	result["Eggs"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  37,
+	result["Eggs"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  37,
 	}
-	result["Other Craft Jewelry Findings"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Other Craft Jewelry Findings"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Other Fine Necklaces, Pendants"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  13,
+	result["Other Fine Necklaces, Pendants"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  13,
 	}
-	result["Other Jewelry Design Findings"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  19,
+	result["Other Jewelry Design Findings"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  19,
 	}
-	result["Other Loose Gemstones"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  17,
+	result["Other Loose Gemstones"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  17,
 	}
-	result["Other Sapphires"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  17,
+	result["Other Sapphires"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  17,
 	}
-	result["Owls"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  36,
+	result["Owls"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  36,
 	}
-	result["Rhinestones"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  17,
+	result["Rhinestones"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  17,
 	}
-	result["Stone"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  17,
+	result["Stone"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  17,
 	}
-	result["Trinket Boxes"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  37,
+	result["Trinket Boxes"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  37,
 	}
-	result["Single Flatware Pieces"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  33,
+	result["Single Flatware Pieces"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  33,
 	}
-	result["Buttons"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  39,
+	result["Buttons"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  39,
 	}
-	result["Other China & Dinnerware"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  31,
+	result["Other China & Dinnerware"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  31,
 	}
-	result["Other French Art Glass"] = siteClient.CategoryStruct{
-		MainCategory: 11,
-		SubCategory:  28,
+	result["Other French Art Glass"] = db.CategoryIDStruct{
+		MainCategoryID: 11,
+		SubCategoryID:  28,
 	}
-	result["Jewelry Boxes"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  37,
+	result["Jewelry Boxes"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  37,
 	}
-	result["Movements"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  40,
+	result["Movements"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  40,
 	}
-	result["Wristwatch Bands"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  40,
+	result["Wristwatch Bands"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  40,
 	}
-	result["Salt & Pepper Shakers"] = siteClient.CategoryStruct{
-		MainCategory: 12,
-		SubCategory:  41,
+	result["Salt & Pepper Shakers"] = db.CategoryIDStruct{
+		MainCategoryID: 12,
+		SubCategoryID:  41,
 	}
-	result["Jewelry Sets"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  42,
+	result["Jewelry Sets"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  42,
 	}
-	result["Brooches, Pins"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  43,
+	result["Brooches, Pins"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  43,
 	}
-	result["Pins, Brooches"] = siteClient.CategoryStruct{
-		MainCategory: 13,
-		SubCategory:  43,
+	result["Pins, Brooches"] = db.CategoryIDStruct{
+		MainCategoryID: 13,
+		SubCategoryID:  43,
 	}
-	result["Pin Backs & Brooch Components"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  44,
+	result["Pin Backs & Brooch Components"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  44,
 	}
-	result["Spacer Beads & Stoppers"] = siteClient.CategoryStruct{
-		MainCategory: 14,
-		SubCategory:  16,
+	result["Spacer Beads & Stoppers"] = db.CategoryIDStruct{
+		MainCategoryID: 14,
+		SubCategoryID:  16,
 	}
 
 	return result
